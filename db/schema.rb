@@ -83,6 +83,24 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
     t.index ["username", "domain"], name: "index_accounts_on_username_and_domain", unique: true
   end
 
+  create_table "action_configs", force: :cascade do |t|
+    t.bigint "action_type_id"
+    t.boolean "skipInbox"
+    t.bigint "folder_label_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action_type_id"], name: "index_action_configs_on_action_type_id"
+    t.index ["folder_label_id"], name: "index_action_configs_on_folder_label_id"
+  end
+
+  create_table "action_types", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_action_types_on_code", unique: true
+  end
+
   create_table "admin_action_logs", force: :cascade do |t|
     t.bigint "account_id"
     t.string "action", default: "", null: false
@@ -169,6 +187,21 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
     t.index ["account_id", "id"], name: "index_favourites_on_account_id_and_id"
     t.index ["account_id", "status_id"], name: "index_favourites_on_account_id_and_status_id", unique: true
     t.index ["status_id"], name: "index_favourites_on_status_id"
+  end
+
+  create_table "filter_conditions", force: :cascade do |t|
+    t.string "name"
+    t.boolean "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "folder_labels", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_folder_labels_on_user_id"
   end
 
   create_table "follow_requests", force: :cascade do |t|
@@ -360,6 +393,62 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
     t.index ["status_id", "preview_card_id"], name: "index_preview_cards_statuses_on_status_id_and_preview_card_id"
   end
 
+  create_table "qualifier_categories", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_qualifier_categories_on_code", unique: true
+  end
+
+  create_table "qualifier_consumers", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "qualifier_id"
+    t.boolean "enabled"
+    t.boolean "trial"
+    t.boolean "active"
+    t.datetime "payment_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["qualifier_id"], name: "index_qualifier_consumers_on_qualifier_id"
+    t.index ["user_id"], name: "index_qualifier_consumers_on_user_id"
+  end
+
+  create_table "qualifier_filters", force: :cascade do |t|
+    t.bigint "qualifier_consumer_id"
+    t.bigint "filter_condition_id"
+    t.bigint "action_config_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action_config_id"], name: "index_qualifier_filters_on_action_config_id"
+    t.index ["filter_condition_id"], name: "index_qualifier_filters_on_filter_condition_id"
+    t.index ["qualifier_consumer_id"], name: "index_qualifier_filters_on_qualifier_consumer_id"
+  end
+
+  create_table "qualifier_ratings", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "qualifier_id"
+    t.decimal "value", precision: 5, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["qualifier_id"], name: "index_qualifier_ratings_on_qualifier_id"
+    t.index ["user_id"], name: "index_qualifier_ratings_on_user_id"
+  end
+
+  create_table "qualifiers", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.bigint "qualifier_category_id"
+    t.string "endpoint"
+    t.decimal "price", precision: 5, scale: 2
+    t.string "version"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["qualifier_category_id"], name: "index_qualifiers_on_qualifier_category_id"
+    t.index ["user_id"], name: "index_qualifiers_on_user_id"
+  end
+
   create_table "report_notes", force: :cascade do |t|
     t.text "content", null: false
     t.bigint "report_id", null: false
@@ -425,6 +514,16 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
     t.datetime "created_at", default: -> { "now()" }, null: false
     t.datetime "updated_at", default: -> { "now()" }, null: false
     t.index ["account_id", "status_id"], name: "index_status_pins_on_account_id_and_status_id", unique: true
+  end
+
+  create_table "status_qualifier_results", force: :cascade do |t|
+    t.bigint "status_id"
+    t.bigint "qualifier_id"
+    t.boolean "result"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["qualifier_id"], name: "index_status_qualifier_results_on_qualifier_id"
+    t.index ["status_id"], name: "index_status_qualifier_results_on_status_id"
   end
 
   create_table "statuses", id: :bigint, default: -> { "timestamp_id('statuses'::text)" }, force: :cascade do |t|
@@ -557,6 +656,8 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
   add_foreign_key "account_moderation_notes", "accounts"
   add_foreign_key "account_moderation_notes", "accounts", column: "target_account_id"
   add_foreign_key "accounts", "accounts", column: "moved_to_account_id", on_delete: :nullify
+  add_foreign_key "action_configs", "action_types"
+  add_foreign_key "action_configs", "folder_labels"
   add_foreign_key "admin_action_logs", "accounts", on_delete: :cascade
   add_foreign_key "backups", "users", on_delete: :nullify
   add_foreign_key "blocks", "accounts", column: "target_account_id", name: "fk_9571bfabc1", on_delete: :cascade
@@ -565,6 +666,7 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
   add_foreign_key "conversation_mutes", "conversations", on_delete: :cascade
   add_foreign_key "favourites", "accounts", name: "fk_5eb6c2b873", on_delete: :cascade
   add_foreign_key "favourites", "statuses", name: "fk_b0e856845e", on_delete: :cascade
+  add_foreign_key "folder_labels", "users"
   add_foreign_key "follow_requests", "accounts", column: "target_account_id", name: "fk_9291ec025d", on_delete: :cascade
   add_foreign_key "follow_requests", "accounts", name: "fk_76d644b0e7", on_delete: :cascade
   add_foreign_key "follows", "accounts", column: "target_account_id", name: "fk_745ca29eac", on_delete: :cascade
@@ -589,6 +691,15 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id", name: "fk_f5fc4c1ee3", on_delete: :cascade
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id", name: "fk_e84df68546", on_delete: :cascade
   add_foreign_key "oauth_applications", "users", column: "owner_id", name: "fk_b0988c7c0a", on_delete: :cascade
+  add_foreign_key "qualifier_consumers", "qualifiers"
+  add_foreign_key "qualifier_consumers", "users"
+  add_foreign_key "qualifier_filters", "action_configs"
+  add_foreign_key "qualifier_filters", "filter_conditions"
+  add_foreign_key "qualifier_filters", "qualifier_consumers"
+  add_foreign_key "qualifier_ratings", "qualifiers"
+  add_foreign_key "qualifier_ratings", "users"
+  add_foreign_key "qualifiers", "qualifier_categories"
+  add_foreign_key "qualifiers", "users"
   add_foreign_key "report_notes", "accounts", on_delete: :cascade
   add_foreign_key "report_notes", "reports", on_delete: :cascade
   add_foreign_key "reports", "accounts", column: "action_taken_by_account_id", name: "fk_bca45b75fd", on_delete: :nullify
@@ -599,6 +710,8 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
   add_foreign_key "session_activations", "users", name: "fk_e5fda67334", on_delete: :cascade
   add_foreign_key "status_pins", "accounts", name: "fk_d4cb435b62", on_delete: :cascade
   add_foreign_key "status_pins", "statuses", on_delete: :cascade
+  add_foreign_key "status_qualifier_results", "qualifiers"
+  add_foreign_key "status_qualifier_results", "statuses"
   add_foreign_key "statuses", "accounts", column: "in_reply_to_account_id", name: "fk_c7fa917661", on_delete: :nullify
   add_foreign_key "statuses", "accounts", name: "fk_9bda1543f7", on_delete: :cascade
   add_foreign_key "statuses", "statuses", column: "in_reply_to_id", on_delete: :nullify
