@@ -312,6 +312,9 @@ Rails.application.routes.draw do
       namespace :push do
         resource :subscription, only: [:create, :show, :update, :destroy]
       end
+
+      resources :qualifiers, controller: 'savyasachi/qualifiers'
+
     end
 
     namespace :web do
