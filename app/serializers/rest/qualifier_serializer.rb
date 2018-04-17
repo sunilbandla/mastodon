@@ -29,7 +29,7 @@ class REST::QualifierSerializer < ActiveModel::Serializer
   end
 
   def price
-    object.price
+    object.price.to_f
   end
 
   def version

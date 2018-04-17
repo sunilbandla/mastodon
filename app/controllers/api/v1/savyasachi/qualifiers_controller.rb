@@ -29,13 +29,13 @@ class Api::V1::Savyasachi::QualifiersController < Api::BaseController
       version: qualifier_params[:version],
       user_id: qualifier_params[:user_id]
     )
-    if @qualifier.save
+    if @qualifier.save!
       Rails.logger.debug "Qualifier saved #{@qualifier[:id]}"
+      render json: @qualifier, serializer: REST::QualifierSerializer
     else
       Rails.logger.debug "Qualifier not saved"
+      render json: { error: 'Error while creating qualifier' }, status: 400
     end
-
-    render json: @qualifier, serializer: REST::QualifierSerializer
   end
 
   def new
@@ -47,11 +47,17 @@ class Api::V1::Savyasachi::QualifiersController < Api::BaseController
   end
 
   def update
-    render_empty
+    @qualifier = Qualifier.find(params[:id])
+    if @qualifier.update!(qualifier_params)
+      render json: @qualifier, serializer: REST::QualifierSerializer
+    else
+      render json: { error: 'Error while saving qualifier' }, status: 400
+    end
   end
 
   def destroy
-    render_empty
+    @qualifier = Qualifier.find(params[:id])
+    @qualifier.destroy
   end
 
   private
