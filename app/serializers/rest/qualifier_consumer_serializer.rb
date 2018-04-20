@@ -4,6 +4,12 @@ class REST::QualifierConsumerSerializer < ActiveModel::Serializer
   attributes :id, :enabled, :trial, :active,
              :qualifier_id, :user_id, :payment_date
 
+  has_many :qualifier_filters, serializer: REST::QualifierFilterSerializer
+
+  def qualifier_filters
+    QualifierFilter.find_by(id: object.id) || []
+  end
+
   def id
     object.id
   end

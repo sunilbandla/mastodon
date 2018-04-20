@@ -48,6 +48,23 @@ class Api::V1::Savyasachi::QualifierConsumersController < Api::BaseController
   def update
     @qualifier_consumer = QualifierConsumer.find(params[:id])
     if @qualifier_consumer.update!(qualifier_consumer_params)
+      params[:qualifier_filters].each do |qualifier_filter|
+        if action_config_params(qualifier_filter)[:id]
+          @action_config = ActionConfig.find(action_config_params(qualifier_filter)[:id])
+          @action_config.update!(action_config_params(qualifier_filter))
+        else
+          @action_config = ActionConfig.new(action_config_params(qualifier_filter))
+          @action_config.save!
+        end
+        @filter = QualifierFilter.new(filter_condition_id: filter_condition_params(qualifier_filter),
+                                     qualifier_consumer_id: @qualifier_consumer[:id],
+                                     action_config_id: @action_config[:id])
+        if qualifier_filter[:id]
+          @filter.update!
+        else
+          @filter.save!
+        end
+      end
       render json: @qualifier_consumer, serializer: REST::QualifierConsumerSerializer
     else
       render json: { error: 'Error while saving qualifier consumer' }, status: 400
@@ -69,5 +86,12 @@ class Api::V1::Savyasachi::QualifierConsumersController < Api::BaseController
   def qualifier_consumer_params
     params.require(:qualifier_consumer).permit(
       :enabled, :trial, :active, :qualifier_id, :user_id, :payment_date)
+  end
+  def action_config_params(qualifier_filter)
+    qualifier_filter.require(:action_config).permit(
+      :id, :action_type_id, :skipInbox, :folder_label_id)
+  end
+  def filter_condition_params(qualifier_filter)
+    qualifier_filter.require(:filter_condition_id)
   end
 end
