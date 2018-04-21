@@ -7,7 +7,7 @@ class REST::QualifierConsumerSerializer < ActiveModel::Serializer
   has_many :qualifier_filters, serializer: REST::QualifierFilterSerializer
 
   def qualifier_filters
-    QualifierFilter.find_by(id: object.id) || []
+    QualifierFilter.where(qualifier_consumer_id: object.id).all || []
   end
 
   def id

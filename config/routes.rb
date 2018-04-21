@@ -316,6 +316,8 @@ Rails.application.routes.draw do
       resources :qualifiers, controller: 'savyasachi/qualifiers'
       resources :qualifier_consumers, controller: 'savyasachi/qualifier_consumers'
       resources :folder_labels, controller: 'savyasachi/folder_labels'
+      resources :filter_conditions, controller: 'savyasachi/filter_conditions'
+      resources :action_types, controller: 'savyasachi/action_types'
 
     end
 

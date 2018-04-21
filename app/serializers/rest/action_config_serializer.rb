@@ -3,8 +3,8 @@
 class REST::ActionConfigSerializer < ActiveModel::Serializer
   attributes :id, :skipInbox
   
-  belongs_to :action_type
-  belongs_to :folder_label
+  belongs_to :action_type, serializer: REST::ActionTypeSerializer
+  belongs_to :folder_label, serializer: REST::FolderLabelSerializer
 
   def id
     object.id
@@ -12,14 +12,6 @@ class REST::ActionConfigSerializer < ActiveModel::Serializer
 
   def skipInbox
     object.skipInbox
-  end
-
-  class ActionTypeSerializer < ActiveModel::Serializer
-    attributes :name, :code
-  end
-
-  class FolderLabelSerializer < ActiveModel::Serializer
-    attributes :name
   end
 
 end

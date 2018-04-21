@@ -10,12 +10,17 @@ class Api::V1::Savyasachi::FolderLabelsController < Api::BaseController
   respond_to :json
 
   def index
-    @folder_labels = FolderLabel.all
+    if current_user[:user_id]
+      @folder_label = FolderLabel.find_by(user_id: current_user[:user_id]) # TODO
+    else
+      @folder_labels = FolderLabel.all
+    end
     render json: @folder_labels, each_serializer: REST::FolderLabelSerializer
   end
 
   def show
     @folder_label = FolderLabel.find(params[:id])
+    # @folder_label = FolderLabel.find_by(id: params[:id], user_id: current_user.user_id) # TODO
     render json: @folder_label, serializer: REST::FolderLabelSerializer
   end
 
