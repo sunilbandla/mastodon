@@ -35,6 +35,8 @@ class PostStatusService < BaseService
                                         application: options[:application])
     end
 
+    Savyasachi::CallStatusQualifierWorker.perform_async(status.id)
+    
     process_hashtags_service.call(status)
     process_mentions_service.call(status)
 

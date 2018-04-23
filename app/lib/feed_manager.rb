@@ -152,16 +152,6 @@ class FeedManager
 
   def filter_from_home?(status, receiver_id)
     return false if receiver_id == status.account_id
-    # Qualifier.where(user_id: receiver_id).each do |qualifier|
-    #   if StatusQualifierResult.where(status_id: status.id, qualifier_id: qualifier[:id]).any?
-    #     Rails.logger.debug "found result #{qualifier[:id]}"
-    #     @status_qualifier_result = StatusQualifierResult.find(status_id: status.id, qualifier_id: qualifier[:id])
-    #     unless @status_qualifier_result.any? && @status_qualifier_result.result?
-    #       Rails.logger.debug "return false result #{qualifier[:id]}"
-    #       return false
-    #     end
-    #   end
-    # end
     return true  if status.reply? && (status.in_reply_to_id.nil? || status.in_reply_to_account_id.nil?)
 
     check_for_blocks = status.mentions.pluck(:account_id)
