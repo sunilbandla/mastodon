@@ -2,9 +2,9 @@
 #
 # Table name: qualifier_consumers
 #
-#  id           :integer          not null, primary key
-#  user_id      :integer
-#  qualifier_id :integer
+#  id           :bigint(8)        not null, primary key
+#  user_id      :bigint(8)
+#  qualifier_id :bigint(8)
 #  enabled      :boolean
 #  trial        :boolean
 #  active       :boolean

@@ -2,7 +2,7 @@
 #
 # Table name: action_types
 #
-#  id         :integer          not null, primary key
+#  id         :bigint(8)        not null, primary key
 #  code       :string
 #  name       :string
 #  created_at :datetime         not null

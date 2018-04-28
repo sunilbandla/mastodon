@@ -2,10 +2,10 @@
 #
 # Table name: qualifier_filters
 #
-#  id                    :integer          not null, primary key
-#  qualifier_consumer_id :integer
-#  filter_condition_id   :integer
-#  action_config_id      :integer
+#  id                    :bigint(8)        not null, primary key
+#  qualifier_consumer_id :bigint(8)
+#  filter_condition_id   :bigint(8)
+#  action_config_id      :bigint(8)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #

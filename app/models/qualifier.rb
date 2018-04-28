@@ -2,14 +2,14 @@
 #
 # Table name: qualifiers
 #
-#  id                    :integer          not null, primary key
+#  id                    :bigint(8)        not null, primary key
 #  name                  :string
 #  description           :text
-#  qualifier_category_id :integer
+#  qualifier_category_id :bigint(8)
 #  endpoint              :string
 #  price                 :decimal(5, 2)
 #  version               :string
-#  user_id               :integer
+#  user_id               :bigint(8)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
