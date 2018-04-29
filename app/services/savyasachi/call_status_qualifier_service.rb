@@ -9,6 +9,7 @@ class Savyasachi::CallStatusQualifierService < BaseService
     @status = Status.find(status_id)
     return if @status.nil?
     call_qualifiers_with_status(qualifiers, @status)
+    Rails.logger.debug "After all qualifiers are called"
     true
   end
 
@@ -23,8 +24,10 @@ class Savyasachi::CallStatusQualifierService < BaseService
       update_qualifier_result_for_status(qualifier, status, false)
     end
     qualifiers.each do |qualifier|
+      Rails.logger.debug "before calling qualifier endpoint: #{status.id}"
       result = call_qualifier_with_status(qualifier, status)
       update_qualifier_result_for_status(qualifier, status, result)
+      Rails.logger.debug "after updating result: #{status.id} #{result}"
     end
   end
 
@@ -44,6 +47,7 @@ class Savyasachi::CallStatusQualifierService < BaseService
 
   def call_qualifier_with_status(qualifier, status)
     @url = qualifier[:endpoint]
+    Rails.logger.debug "call url: #{status.id} #{@url}"
     return if @url.blank?
     result = process(@url, status)
     result
@@ -73,6 +77,7 @@ class Savyasachi::CallStatusQualifierService < BaseService
   end
 
   def process_response(response, terminal = false)
+    Rails.logger.debug "process response: #{response}"
     return nil if response.code != 200
 
     if ['application/json'].include?(response.mime_type)

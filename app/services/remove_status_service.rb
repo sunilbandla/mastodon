@@ -22,6 +22,7 @@ class RemoveStatusService < BaseService
     remove_from_public
     remove_from_media if status.media_attachments.any?
     remove_from_direct if status.direct_visibility?
+    remove_from_status_qualifier_results
 
     @status.destroy!
 
@@ -144,6 +145,10 @@ class RemoveStatusService < BaseService
       Redis.current.publish("timeline:direct:#{mention.account.id}", @payload) if mention.account.local?
     end
     Redis.current.publish("timeline:direct:#{@account.id}", @payload) if @account.local?
+  end
+
+  def remove_from_status_qualifier_results
+    StatusQualifierResult.where(status_id: @status.id).delete_all
   end
 
   def redis

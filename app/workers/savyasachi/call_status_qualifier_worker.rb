@@ -7,5 +7,7 @@ class Savyasachi::CallStatusQualifierWorker
 
   def perform(status_id)
     Savyasachi::CallStatusQualifierService.new.call(status_id)
+    Rails.logger.debug "before calling distribute service"
+    DistributeStatusService.new.call(status_id)
   end
 end

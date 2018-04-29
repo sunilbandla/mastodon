@@ -36,15 +36,6 @@ class PostStatusService < BaseService
     end
 
     Savyasachi::CallStatusQualifierWorker.perform_async(status.id)
-    
-    process_hashtags_service.call(status)
-    process_mentions_service.call(status)
-
-    LinkCrawlWorker.perform_async(status.id) unless status.spoiler_text?
-    DistributionWorker.perform_async(status.id)
-    Pubsubhubbub::DistributionWorker.perform_async(status.stream_entry.id)
-    ActivityPub::DistributionWorker.perform_async(status.id)
-    ActivityPub::ReplyDistributionWorker.perform_async(status.id) if status.reply? && status.thread.account.local?
 
     if options[:idempotency].present?
       redis.setex("idempotency:status:#{account.id}:#{options[:idempotency]}", 3_600, status.id)
