@@ -11,11 +11,11 @@ class Savyasachi::StatusQualifierResultFilterService < BaseService
       if StatusQualifierResult.where(status_id: status.id, qualifier_id: qualifier[:id]).any?
         Rails.logger.debug "found StatusQualifierResult #{qualifier[:id]}"
         status_qualifier_result = StatusQualifierResult.find_by(status_id: status.id, qualifier_id: qualifier[:id])
-        Rails.logger.debug "return StatusQualifierResult result #{status_qualifier_result}"
-        return true unless status_qualifier_result.result?
+        Rails.logger.debug "return StatusQualifierResult result #{status_qualifier_result.result}"
+        return true if status_qualifier_result.result?
       end
     end
-    Rails.logger.debug "return filter_out false"
+    Rails.logger.debug "return filter? false"
     false
   end
 

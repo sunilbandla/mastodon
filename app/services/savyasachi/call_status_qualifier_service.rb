@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Savyasachi::CallStatusQualifierService < BaseService
+  include JsonLdHelper
+
   # Call qualifiers with a status
   # @param [String] status Message
   # @param [Hash] options
@@ -72,23 +74,17 @@ class Savyasachi::CallStatusQualifierService < BaseService
     accept = 'text/html'
     accept = 'application/json, ' + accept
 
-    # TODO change to post
-    Request.new(:get, @url, form: qualifier_endpoint_params).add_headers('Accept' => accept).perform(&block)
+    Request.new(:post, @url, form: qualifier_endpoint_params).add_headers('Accept' => accept).perform(&block)
   end
 
   def process_response(response, terminal = false)
-    Rails.logger.debug "process response: #{response}"
     return nil if response.code != 200
 
     if ['application/json'].include?(response.mime_type)
       body = response.body_with_limit
       json = body_to_json(body)
-      if supported_context?(json)
-        return true
-        json['result']
-      else
-        false
-      end
+      Rails.logger.debug "Response #{json}"
+      json['result']
     end
   end
 
