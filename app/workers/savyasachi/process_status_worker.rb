@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Savyasachi::CallStatusQualifierWorker
+class Savyasachi::ProcessStatusWorker
   include Sidekiq::Worker
 
   sidekiq_options queue: 'pull', retry: 0

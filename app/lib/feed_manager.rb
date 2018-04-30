@@ -160,6 +160,8 @@ class FeedManager
 
     return true if blocks_or_mutes?(receiver_id, check_for_blocks, :home)
 
+    return true if Savyasachi::StatusQualifierResultFilterService.new.filter?(status, receiver_id)
+
     if status.reply? && !status.in_reply_to_account_id.nil?                                                                      # Filter out if it's a reply
       should_filter   = !Follow.where(account_id: receiver_id, target_account_id: status.in_reply_to_account_id).exists?         # and I'm not following the person it's a reply to
       should_filter &&= receiver_id != status.in_reply_to_account_id                                                             # and it's not a reply to me
@@ -177,6 +179,8 @@ class FeedManager
 
   def filter_from_mentions?(status, receiver_id)
     return true if receiver_id == status.account_id
+
+    return true if Savyasachi::StatusQualifierResultFilterService.new.filter?(status, receiver_id)
 
     # This filter is called from NotifyService, but already after the sender of
     # the notification has been checked for mute/block. Therefore, it's not

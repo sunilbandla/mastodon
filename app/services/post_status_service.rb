@@ -35,7 +35,7 @@ class PostStatusService < BaseService
                                         application: options[:application])
     end
 
-    Savyasachi::CallStatusQualifierWorker.perform_async(status.id)
+    Savyasachi::ProcessStatusWorker.perform_async(status.id)
 
     if options[:idempotency].present?
       redis.setex("idempotency:status:#{account.id}:#{options[:idempotency]}", 3_600, status.id)
