@@ -508,6 +508,15 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
     t.index ["var"], name: "index_site_uploads_on_var", unique: true
   end
 
+  create_table "status_folders", force: :cascade do |t|
+    t.bigint "status_id"
+    t.bigint "folder_label_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["folder_label_id"], name: "index_status_folders_on_folder_label_id"
+    t.index ["status_id"], name: "index_status_folders_on_status_id"
+  end
+
   create_table "status_pins", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "status_id", null: false
@@ -708,6 +717,8 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
   add_foreign_key "reports", "accounts", name: "fk_4b81f7522c", on_delete: :cascade
   add_foreign_key "session_activations", "oauth_access_tokens", column: "access_token_id", name: "fk_957e5bda89", on_delete: :cascade
   add_foreign_key "session_activations", "users", name: "fk_e5fda67334", on_delete: :cascade
+  add_foreign_key "status_folders", "folder_labels"
+  add_foreign_key "status_folders", "statuses"
   add_foreign_key "status_pins", "accounts", name: "fk_d4cb435b62", on_delete: :cascade
   add_foreign_key "status_pins", "statuses", on_delete: :cascade
   add_foreign_key "status_qualifier_results", "qualifiers"
