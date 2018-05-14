@@ -48,6 +48,7 @@ class Api::V1::Savyasachi::QualifierConsumersController < Api::BaseController
   def update
     @qualifier_consumer = QualifierConsumer.find(params[:id])
     if @qualifier_consumer.update!(qualifier_consumer_params)
+      # TODO only one filter can set skipInbox to true
       params[:qualifier_filters].each do |qualifier_filter|
         if action_config_params(qualifier_filter)[:id]
           @action_config = ActionConfig.find(action_config_params(qualifier_filter)[:id])

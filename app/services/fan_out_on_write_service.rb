@@ -42,6 +42,9 @@ class FanOutOnWriteService < BaseService
       FeedInsertWorker.push_bulk(followers) do |follower|
         [status.id, follower.id, :home]
       end
+      FeedInsertWorker.push_bulk(followers) do |follower|
+        [status.id, follower.id, :folder]
+      end
     end
   end
 
@@ -60,7 +63,9 @@ class FanOutOnWriteService < BaseService
 
     status.mentions.includes(:account).each do |mention|
       mentioned_account = mention.account
-      next if !mentioned_account.local? || !mentioned_account.following?(status.account) || FeedManager.instance.filter?(:home, status, mention.account_id)
+      next if !mentioned_account.local? || !mentioned_account.following?(status.account)
+      FolderManager.instance.push_to_folder(mentioned_account, status)
+      next if FeedManager.instance.filter?(:home, status, mention.account_id)
       FeedManager.instance.push_to_home(mentioned_account, status)
     end
   end

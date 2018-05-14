@@ -23,6 +23,7 @@ class RemoveStatusService < BaseService
     remove_from_media if status.media_attachments.any?
     remove_from_direct if status.direct_visibility?
     remove_from_status_qualifier_results
+    remove_from_status_folders
 
     @status.destroy!
 
@@ -41,11 +42,13 @@ class RemoveStatusService < BaseService
 
   def remove_from_self
     FeedManager.instance.unpush_from_home(@account, @status)
+    FolderManager.instance.unpush_from_folders(@account, @status)
   end
 
   def remove_from_followers
     @account.followers.local.find_each do |follower|
       FeedManager.instance.unpush_from_home(follower, @status)
+      FolderManager.instance.unpush_from_folders(follower, @status)
     end
   end
 
@@ -149,6 +152,10 @@ class RemoveStatusService < BaseService
 
   def remove_from_status_qualifier_results
     StatusQualifierResult.where(status_id: @status.id).delete_all
+  end
+
+  def remove_from_status_folders
+    StatusFolder.where(status_id: @status.id).delete_all
   end
 
   def redis

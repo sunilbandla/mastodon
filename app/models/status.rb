@@ -187,6 +187,11 @@ class Status < ApplicationRecord
     def as_home_timeline(account)
       where(account: [account] + account.following).where(visibility: [:public, :unlisted, :private])
     end
+    
+    def as_folder_timeline(account, folder_label_id)
+      status_ids = StatusFolder.find_by(folder_label_id: folder_label_id).pluck(:status_id)
+      where(id: status_ids)
+    end
 
     def as_direct_timeline(account)
       query = joins("LEFT OUTER JOIN mentions ON statuses.id = mentions.status_id AND mentions.account_id = #{account.id}")

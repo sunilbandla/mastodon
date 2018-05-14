@@ -8,14 +8,19 @@ class FeedInsertWorker
     @status   = Status.find(status_id)
 
     case @type
-    when :home
+    when :home, :folder
       @follower = Account.find(id)
     when :list
       @list     = List.find(id)
       @follower = @list.account
     end
 
-    check_and_insert
+    case @type
+    when :folder
+      perform_push
+    else
+      check_and_insert
+    end
   rescue ActiveRecord::RecordNotFound
     true
   end
@@ -38,6 +43,8 @@ class FeedInsertWorker
       FeedManager.instance.push_to_home(@follower, @status)
     when :list
       FeedManager.instance.push_to_list(@list, @status)
+    when :folder
+      FolderManager.instance.push_to_folder(@follower, @status)
     end
   end
 end

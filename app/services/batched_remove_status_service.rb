@@ -29,6 +29,7 @@ class BatchedRemoveStatusService < BaseService
 
       unpush_from_home_timelines(account, account_statuses)
       unpush_from_list_timelines(account, account_statuses)
+      unpush_from_folder_timelines(account, account_statuses)
 
       batch_stream_entries(account, account_statuses) if account.local?
     end
@@ -61,6 +62,12 @@ class BatchedRemoveStatusService < BaseService
       statuses.each do |status|
         FeedManager.instance.unpush_from_home(follower, status)
       end
+    end
+  end
+
+  def unpush_from_folder_timelines(account, statuses)
+    statuses.each do |status|
+      FolderManager.instance.unpush_from_folders(account, status)
     end
   end
 

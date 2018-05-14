@@ -30,7 +30,7 @@ if Rails.env.development?
 #   name: 'Sports'
 # }, {
 #   user_id: 1,
-#   name: 'Movies'
+#   name: 'Abuse'
 # }])
 
 # FilterCondition.destroy_all
