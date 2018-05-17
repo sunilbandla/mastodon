@@ -27,7 +27,7 @@ class Api::V1::Savyasachi::QualifiersController < Api::BaseController
       qualifier_category_id: qualifier_params[:qualifier_category_id],
       price: qualifier_params[:price],
       version: qualifier_params[:version],
-      user_id: qualifier_params[:user_id]
+      account_id: qualifier_params[:account_id]
     )
     if @qualifier.save!
       Rails.logger.debug "Qualifier saved #{@qualifier[:id]}"
@@ -69,6 +69,6 @@ class Api::V1::Savyasachi::QualifiersController < Api::BaseController
 
   def qualifier_params
     params.require(:qualifier).permit(
-      :name, :description, :qualifier_category_id, :endpoint, :price, :version, :user_id)
+      :name, :description, :qualifier_category_id, :endpoint, :price, :version, :account_id)
   end
 end

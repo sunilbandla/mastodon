@@ -22,7 +22,7 @@ class Api::V1::Savyasachi::QualifierConsumersController < Api::BaseController
   def create
     @qualifier_consumer = QualifierConsumer.new(
       qualifier_id: qualifier_consumer_params[:qualifier_id],
-      user_id: qualifier_consumer_params[:user_id],
+      account_id: qualifier_consumer_params[:account_id],
       payment_date: qualifier_consumer_params[:payment_date],
       enabled: qualifier_consumer_params[:enabled],
       trial: qualifier_consumer_params[:trial],
@@ -48,7 +48,6 @@ class Api::V1::Savyasachi::QualifierConsumersController < Api::BaseController
   def update
     @qualifier_consumer = QualifierConsumer.find(params[:id])
     if @qualifier_consumer.update!(qualifier_consumer_params)
-      # TODO only one filter can set skipInbox to true
       params[:qualifier_filters].each do |qualifier_filter|
         if action_config_params(qualifier_filter)[:id]
           @action_config = ActionConfig.find(action_config_params(qualifier_filter)[:id])
@@ -89,12 +88,12 @@ class Api::V1::Savyasachi::QualifierConsumersController < Api::BaseController
 
   def qualifier_consumer_params
     params.require(:qualifier_consumer).permit(
-      :enabled, :trial, :active, :qualifier_id, :user_id)
+      :enabled, :trial, :active, :qualifier_id, :account_id)
   end
   def action_config_params(qualifier_filter)
     # TODO check if folder belongs to user
     qualifier_filter.require(:action_config).permit(
-      :id, :action_type_id, :skipInbox, :folder_label_id)
+      :id, :action_type_id, :folder_label_id)
   end
   def qualifier_filter_params(qualifier_filter)
     qualifier_filter.permit(

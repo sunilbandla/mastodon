@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_14_140000) do
+ActiveRecord::Schema.define(version: 2018_05_16_144930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,7 +85,6 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
 
   create_table "action_configs", force: :cascade do |t|
     t.bigint "action_type_id"
-    t.boolean "skipInbox"
     t.bigint "folder_label_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -198,10 +197,10 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
 
   create_table "folder_labels", force: :cascade do |t|
     t.string "name"
-    t.bigint "user_id"
+    t.bigint "account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_folder_labels_on_user_id"
+    t.index ["account_id"], name: "index_folder_labels_on_account_id"
   end
 
   create_table "follow_requests", force: :cascade do |t|
@@ -402,7 +401,7 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
   end
 
   create_table "qualifier_consumers", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "account_id"
     t.bigint "qualifier_id"
     t.boolean "enabled"
     t.boolean "trial"
@@ -410,8 +409,8 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
     t.datetime "payment_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_qualifier_consumers_on_account_id"
     t.index ["qualifier_id"], name: "index_qualifier_consumers_on_qualifier_id"
-    t.index ["user_id"], name: "index_qualifier_consumers_on_user_id"
   end
 
   create_table "qualifier_filters", force: :cascade do |t|
@@ -442,11 +441,11 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
     t.string "endpoint"
     t.decimal "price", precision: 5, scale: 2
     t.string "version"
-    t.bigint "user_id"
+    t.bigint "account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_qualifiers_on_account_id"
     t.index ["qualifier_category_id"], name: "index_qualifiers_on_qualifier_category_id"
-    t.index ["user_id"], name: "index_qualifiers_on_user_id"
   end
 
   create_table "report_notes", force: :cascade do |t|
@@ -675,7 +674,7 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
   add_foreign_key "conversation_mutes", "conversations", on_delete: :cascade
   add_foreign_key "favourites", "accounts", name: "fk_5eb6c2b873", on_delete: :cascade
   add_foreign_key "favourites", "statuses", name: "fk_b0e856845e", on_delete: :cascade
-  add_foreign_key "folder_labels", "users"
+  add_foreign_key "folder_labels", "users", column: "account_id"
   add_foreign_key "follow_requests", "accounts", column: "target_account_id", name: "fk_9291ec025d", on_delete: :cascade
   add_foreign_key "follow_requests", "accounts", name: "fk_76d644b0e7", on_delete: :cascade
   add_foreign_key "follows", "accounts", column: "target_account_id", name: "fk_745ca29eac", on_delete: :cascade
@@ -701,14 +700,14 @@ ActiveRecord::Schema.define(version: 2018_05_14_140000) do
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id", name: "fk_e84df68546", on_delete: :cascade
   add_foreign_key "oauth_applications", "users", column: "owner_id", name: "fk_b0988c7c0a", on_delete: :cascade
   add_foreign_key "qualifier_consumers", "qualifiers"
-  add_foreign_key "qualifier_consumers", "users"
+  add_foreign_key "qualifier_consumers", "users", column: "account_id"
   add_foreign_key "qualifier_filters", "action_configs"
   add_foreign_key "qualifier_filters", "filter_conditions"
   add_foreign_key "qualifier_filters", "qualifier_consumers"
   add_foreign_key "qualifier_ratings", "qualifiers"
   add_foreign_key "qualifier_ratings", "users"
   add_foreign_key "qualifiers", "qualifier_categories"
-  add_foreign_key "qualifiers", "users"
+  add_foreign_key "qualifiers", "users", column: "account_id"
   add_foreign_key "report_notes", "accounts", on_delete: :cascade
   add_foreign_key "report_notes", "reports", on_delete: :cascade
   add_foreign_key "reports", "accounts", column: "action_taken_by_account_id", name: "fk_bca45b75fd", on_delete: :nullify

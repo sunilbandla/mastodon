@@ -26,10 +26,10 @@ if Rails.env.development?
 # FolderLabel.destroy_all
 
 # FolderLabel.create([{
-#   user_id: 1,
+#   account_id: 1,
 #   name: 'Sports'
 # }, {
-#   user_id: 1,
+#   account_id: 1,
 #   name: 'Abuse'
 # }])
 

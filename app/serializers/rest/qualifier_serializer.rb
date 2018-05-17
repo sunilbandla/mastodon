@@ -2,7 +2,7 @@
 
 class REST::QualifierSerializer < ActiveModel::Serializer
   attributes :id, :name, :description, :endpoint,
-             :qualifier_category_id, :user_id, :price, :version
+             :qualifier_category_id, :account_id, :price, :version
 
   def id
     object.id
@@ -24,8 +24,8 @@ class REST::QualifierSerializer < ActiveModel::Serializer
     object.qualifier_category_id
   end
 
-  def user_id
-    object.user_id
+  def account_id
+    object.account_id
   end
 
   def price

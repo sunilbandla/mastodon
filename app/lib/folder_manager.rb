@@ -10,15 +10,15 @@ class FolderManager
   MOVE_TO_FOLDER_ACTION_TYPE = "moveToFolder"
   MOVE_TO_FOLDER_ACTION_TYPE_ID = 2
 
-  def key(user_id, folder_id, sub_type = nil)
-    return "#{KEY_PREFIX}:#{user_id}:#{folder_id}" unless sub_type
+  def key(account_id, folder_id, sub_type = nil)
+    return "#{KEY_PREFIX}:#{account_id}:#{folder_id}" unless sub_type
 
-    "#{KEY_PREFIX}:#{user_id}:#{folder_id}:#{sub_type}"
+    "#{KEY_PREFIX}:#{account_id}:#{folder_id}:#{sub_type}"
   end
 
   def push_to_folder(account, status)
     Rails.logger.debug "push_to_folder #{account} #{status.id}"
-    QualifierConsumer.where(user_id: account.id).each do |qualifier|
+    QualifierConsumer.where(account_id: account.id).each do |qualifier|
       if StatusQualifierResult.where(status_id: status.id, qualifier_id: qualifier[:id]).any?
         status_qualifier_result = StatusQualifierResult.find_by(status_id: status.id, qualifier_id: qualifier[:id])
         Rails.logger.debug " Status Qualifier Result result #{status_qualifier_result.result}"
@@ -67,7 +67,7 @@ class FolderManager
   end
 
   def unpush_from_folders(account, status)
-    StatusFolder.joins(:folder_label).where(folder_labels: { user_id: account.id }).each do |status_folder|
+    StatusFolder.joins(:folder_label).where(folder_labels: { account_id: account.id }).each do |status_folder|
       timeline_key = key(account.id, status_folder.folder_label_id)
       Rails.logger.debug "renmove_to_folder #{account.id} #{status.id} #{status_folder.folder_label_id}"
       return false unless remove_from_folder(:folder, account.id, status, status_folder.folder_label_id)
@@ -104,7 +104,7 @@ class FolderManager
   def populate_folders(account)
     limit  = FeedManager::MAX_ITEMS / 2
 
-    FolderLabel.find_by(user_id: account.id).each do |folder_label|
+    FolderLabel.find_by(account_id: account.id).each do |folder_label|
       statuses = Status.as_folder_timeline(account, folder_label.id)
                       .paginate_by_max_id(limit)
 

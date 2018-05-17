@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class REST::FolderLabelSerializer < ActiveModel::Serializer
-  attributes :id, :name, :user_id
+  attributes :id, :name, :account_id
 
   def id
     object.id
   end
 
-  def user_id
-    object.user_id
+  def account_id
+    object.account_id
   end
 
   def name

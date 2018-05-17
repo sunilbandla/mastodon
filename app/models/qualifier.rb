@@ -9,7 +9,7 @@
 #  endpoint              :string
 #  price                 :decimal(5, 2)
 #  version               :string
-#  user_id               :bigint(8)
+#  account_id            :bigint(8)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #

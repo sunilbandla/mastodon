@@ -10,8 +10,8 @@ class Api::V1::Savyasachi::FolderLabelsController < Api::BaseController
   respond_to :json
 
   def index
-    if current_user[:user_id]
-      @folder_label = FolderLabel.find_by(user_id: current_user[:user_id]) # TODO
+    if current_user[:account_id]
+      @folder_label = FolderLabel.find_by(account_id: current_user[:account_id]) # TODO
     else
       @folder_labels = FolderLabel.all
     end
@@ -20,13 +20,13 @@ class Api::V1::Savyasachi::FolderLabelsController < Api::BaseController
 
   def show
     @folder_label = FolderLabel.find(params[:id])
-    # @folder_label = FolderLabel.find_by(id: params[:id], user_id: current_user.user_id) # TODO
+    # @folder_label = FolderLabel.find_by(id: params[:id], account_id: current_user.account_id) # TODO
     render json: @folder_label, serializer: REST::FolderLabelSerializer
   end
 
   def create
     @folder_label = FolderLabel.new(
-      user_id: folder_label_params[:user_id],
+      account_id: folder_label_params[:account_id],
       name: folder_label_params[:name]
     )
     if @folder_label.save!
@@ -68,6 +68,6 @@ class Api::V1::Savyasachi::FolderLabelsController < Api::BaseController
   end
 
   def folder_label_params
-    params.require(:folder_label).permit(:user_id, :name)
+    params.require(:folder_label).permit(:account_id, :name)
   end
 end

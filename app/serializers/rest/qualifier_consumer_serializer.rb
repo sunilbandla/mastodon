@@ -2,7 +2,7 @@
 
 class REST::QualifierConsumerSerializer < ActiveModel::Serializer
   attributes :id, :enabled, :trial, :active,
-             :qualifier_id, :user_id, :payment_date
+             :qualifier_id, :account_id, :payment_date
 
   has_many :qualifier_filters, serializer: REST::QualifierFilterSerializer
 
@@ -18,8 +18,8 @@ class REST::QualifierConsumerSerializer < ActiveModel::Serializer
     object.qualifier_id
   end
 
-  def user_id
-    object.user_id
+  def account_id
+    object.account_id
   end
 
   def enabled
