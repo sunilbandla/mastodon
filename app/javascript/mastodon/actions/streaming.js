@@ -46,3 +46,4 @@ export const connectPublicStream    = ({ onlyMedia } = {}) => connectTimelineStr
 export const connectHashtagStream   = tag => connectTimelineStream(`hashtag:${tag}`, `hashtag&tag=${tag}`);
 export const connectDirectStream    = () => connectTimelineStream('direct', 'direct');
 export const connectListStream      = id => connectTimelineStream(`list:${id}`, `list&list=${id}`);
+export const connectFolderStream    = id => connectTimelineStream(`folder:${id}`, `folder&folder=${id}`);

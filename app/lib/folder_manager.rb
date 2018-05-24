@@ -6,14 +6,16 @@ class FolderManager
   include Singleton
 
   MAX_ITEMS = 400
-  KEY_PREFIX = "folder"
+  KEY_PREFIX = "folder:"
   MOVE_TO_FOLDER_ACTION_TYPE = "moveToFolder"
   MOVE_TO_FOLDER_ACTION_TYPE_ID = 2
 
   def key(account_id, folder_id, sub_type = nil)
-    return "#{KEY_PREFIX}:#{account_id}:#{folder_id}" unless sub_type
+    # TODO remove account_id input
+    account_id = nil
+    return "#{KEY_PREFIX}#{folder_id}" unless sub_type
 
-    "#{KEY_PREFIX}:#{account_id}:#{folder_id}:#{sub_type}"
+    "#{KEY_PREFIX}#{folder_id}:#{sub_type}"
   end
 
   def push_to_folder(account, status)

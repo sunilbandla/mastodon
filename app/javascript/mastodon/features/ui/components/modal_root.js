@@ -16,6 +16,7 @@ import {
   ReportModal,
   EmbedModal,
   ListEditor,
+  FolderEditor,
 } from '../../../features/ui/util/async-components';
 
 const MODAL_COMPONENTS = {
@@ -29,6 +30,7 @@ const MODAL_COMPONENTS = {
   'ACTIONS': () => Promise.resolve({ default: ActionsModal }),
   'EMBED': EmbedModal,
   'LIST_EDITOR': ListEditor,
+  'FOLDER_EDITOR': FolderEditor,
   'FOCAL_POINT': () => Promise.resolve({ default: FocalPointModal }),
 };
 

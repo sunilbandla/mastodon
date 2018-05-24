@@ -102,6 +102,7 @@ export const expandAccountFeaturedTimeline = accountId => expandTimeline(`accoun
 export const expandAccountMediaTimeline    = (accountId, { maxId } = {}) => expandTimeline(`account:${accountId}:media`, `/api/v1/accounts/${accountId}/statuses`, { max_id: maxId, only_media: true });
 export const expandHashtagTimeline         = (hashtag, { maxId } = {}, done = noOp) => expandTimeline(`hashtag:${hashtag}`, `/api/v1/timelines/tag/${hashtag}`, { max_id: maxId }, done);
 export const expandListTimeline            = (id, { maxId } = {}, done = noOp) => expandTimeline(`list:${id}`, `/api/v1/timelines/list/${id}`, { max_id: maxId }, done);
+export const expandFolderTimeline          = (id, { maxId } = {}, done = noOp) => expandTimeline(`folder:${id}`, `/api/v1/timelines/folder/${id}`, { max_id: maxId }, done);
 
 export function expandTimelineRequest(timeline) {
   return {

@@ -34,8 +34,16 @@ export function ListTimeline () {
   return import(/* webpackChunkName: "features/list_timeline" */'../../list_timeline');
 }
 
+export function FolderTimeline () {
+  return import(/* webpackChunkName: "features/folder_timeline" */'../../folder_timeline');
+}
+
 export function Lists () {
   return import(/* webpackChunkName: "features/lists" */'../../lists');
+}
+
+export function Folders () {
+  return import(/* webpackChunkName: "features/folders" */'../../folders');
 }
 
 export function Status () {
@@ -128,4 +136,8 @@ export function EmbedModal () {
 
 export function ListEditor () {
   return import(/* webpackChunkName: "features/list_editor" */'../../list_editor');
+}
+
+export function FolderEditor () {
+  return import(/* webpackChunkName: "features/folder_editor" */'../../folder_editor');
 }

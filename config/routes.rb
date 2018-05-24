@@ -239,6 +239,7 @@ Rails.application.routes.draw do
         resource :direct, only: :show, controller: :direct
         resource :home, only: :show, controller: :home
         resource :public, only: :show, controller: :public
+        resources :folder, controller: 'savyasachi/folder'
         resources :tag, only: :show
         resources :list, only: :show
       end

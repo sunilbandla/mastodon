@@ -42,6 +42,8 @@ import {
   Mutes,
   PinnedStatuses,
   Lists,
+  Folders,
+  FolderTimeline,
 } from './util/async-components';
 import { HotKeys } from 'react-hotkeys';
 import { me } from '../../initial_state';
@@ -147,6 +149,7 @@ class SwitchingColumnsArea extends React.PureComponent {
           <WrappedRoute path='/timelines/direct' component={DirectTimeline} content={children} />
           <WrappedRoute path='/timelines/tag/:id' component={HashtagTimeline} content={children} />
           <WrappedRoute path='/timelines/list/:id' component={ListTimeline} content={children} />
+          <WrappedRoute path='/timelines/folder/:id' component={FolderTimeline} content={children} />
 
           <WrappedRoute path='/notifications' component={Notifications} content={children} />
           <WrappedRoute path='/favourites' component={FavouritedStatuses} content={children} />
@@ -170,6 +173,7 @@ class SwitchingColumnsArea extends React.PureComponent {
           <WrappedRoute path='/domain_blocks' component={DomainBlocks} content={children} />
           <WrappedRoute path='/mutes' component={Mutes} content={children} />
           <WrappedRoute path='/lists' component={Lists} content={children} />
+          <WrappedRoute path='/folders' component={Folders} content={children} />
 
           <WrappedRoute component={GenericNotFound} content={children} />
         </WrappedSwitch>

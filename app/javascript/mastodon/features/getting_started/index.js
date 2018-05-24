@@ -29,6 +29,7 @@ const messages = defineMessages({
   mutes: { id: 'navigation_bar.mutes', defaultMessage: 'Muted users' },
   info: { id: 'navigation_bar.info', defaultMessage: 'Extended information' },
   pins: { id: 'navigation_bar.pins', defaultMessage: 'Pinned toots' },
+  folders: { id: 'navigation_bar.folders', defaultMessage: 'Folders' },
   lists: { id: 'navigation_bar.lists', defaultMessage: 'Lists' },
   keyboard_shortcuts: { id: 'navigation_bar.keyboard_shortcuts', defaultMessage: 'Keyboard shortcuts' },
 });
@@ -105,18 +106,19 @@ export default class GettingStarted extends ImmutablePureComponent {
 
     navItems.push(
       <ColumnLink key='5' icon='star' text={intl.formatMessage(messages.favourites)} to='/favourites' />,
-      <ColumnLink key='6' icon='bars' text={intl.formatMessage(messages.lists)} to='/lists' />
+      <ColumnLink key='6' icon='bars' text={intl.formatMessage(messages.lists)} to='/lists' />,
+      <ColumnLink key='7' icon='bars' text={intl.formatMessage(messages.folders)} to='/folders' />
     );
 
     if (myAccount.get('locked')) {
-      navItems.push(<ColumnLink key='7' icon='users' text={intl.formatMessage(messages.follow_requests)} badge={badgeDisplay(unreadFollowRequests, 40)} to='/follow_requests' />);
+      navItems.push(<ColumnLink key='8' icon='users' text={intl.formatMessage(messages.follow_requests)} badge={badgeDisplay(unreadFollowRequests, 40)} to='/follow_requests' />);
     }
 
     if (multiColumn) {
-      navItems.push(<ColumnLink key='8' icon='question' text={intl.formatMessage(messages.keyboard_shortcuts)} to='/keyboard-shortcuts' />);
+      navItems.push(<ColumnLink key='9' icon='question' text={intl.formatMessage(messages.keyboard_shortcuts)} to='/keyboard-shortcuts' />);
     }
 
-    navItems.push(<ColumnLink key='9' icon='book' text={intl.formatMessage(messages.info)} href='/about/more' />);
+    navItems.push(<ColumnLink key='10' icon='book' text={intl.formatMessage(messages.info)} href='/about/more' />);
 
     return (
       <Column icon='asterisk' heading={intl.formatMessage(messages.heading)} hideHeadingOnMobile>
