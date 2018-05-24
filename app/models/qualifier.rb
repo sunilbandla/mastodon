@@ -16,5 +16,5 @@
 
 class Qualifier < ApplicationRecord
   belongs_to :qualifier_category
-  belongs_to :user
+  belongs_to :account
 end

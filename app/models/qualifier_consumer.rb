@@ -14,6 +14,6 @@
 #
 
 class QualifierConsumer < ApplicationRecord
-  belongs_to :user
+  belongs_to :account
   belongs_to :qualifier
 end

@@ -11,6 +11,7 @@
 #
 
 class QualifierRating < ApplicationRecord
+  # TODO update to belongs_to :account
   belongs_to :user
   belongs_to :qualifier
 end
