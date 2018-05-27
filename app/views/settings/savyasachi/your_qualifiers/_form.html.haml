@@ -1,0 +1,28 @@
+.fields-group
+  = f.label :name, t('qualifiers.name')
+  = f.input :name, placeholder: t('qualifiers.name'), autofocus: true, required: true, input_html: { 'aria-label' => t('qualifiers.name') }
+
+  %br/
+
+  = f.label :description, t('qualifiers.description')
+  = f.text_area :description, placeholder: t('qualifiers.description'), required: true, input_html: { 'aria-label' => t('qualifiers.description') }
+
+  %br/
+
+  = f.label :version, t('qualifiers.version')
+  = f.input :version, placeholder: t('qualifiers.version'), required: true, input_html: { 'aria-label' => t('qualifiers.version') }
+
+  %br/
+
+  = f.label :endpoint, t('qualifiers.endpoint')
+  = f.input :endpoint, placeholder: t('qualifiers.endpoint'), required: true, input_html: { 'aria-label' => t('qualifiers.endpoint') }
+
+  %br/
+
+  = f.label :price, t('qualifiers.price')
+  = f.input :price, type: :number, placeholder: t('qualifiers.price'), required: true, input_html: { 'aria-label' => t('qualifiers.price') }
+
+  %br/
+
+  = f.label :qualifier_category, t('qualifiers.category')
+  = f.association :qualifier_category, required: true, input_html: { 'aria-label' => t('qualifiers.category') }

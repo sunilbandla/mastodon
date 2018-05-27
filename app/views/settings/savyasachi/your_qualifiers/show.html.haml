@@ -1,0 +1,32 @@
+- content_for :page_title do
+  = @qualifier.name
+
+.table-wrapper
+  %table.table
+    %tbody
+      %tr
+        %th= t('qualifiers.name')
+        %td= @qualifier.name
+      %tr
+        %th= t('qualifiers.category')
+        %td= @qualifier.category.name
+      %tr{ rowspan: 2}
+        %th= t('qualifiers.description')
+        %td= @qualifier.description
+      %tr
+        %th= t('qualifiers.endpoint')
+        %td= @qualifier.endpoint
+      %tr
+        %th= t('qualifiers.version')
+        %td= @qualifier.version
+      %tr
+        %th= t('qualifiers.price')
+        %td= @qualifier.price
+
+%hr/
+
+= link_to t('qualifiers.yours.update'), edit_settings_your_qualifier_path, class: 'button'
+
+%hr/
+
+= link_to t('qualifiers.back'), settings_your_qualifiers_path, class: 'button button-alternative-2 webapp-btn'

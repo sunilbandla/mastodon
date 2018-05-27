@@ -17,4 +17,8 @@
 class Qualifier < ApplicationRecord
   belongs_to :qualifier_category
   belongs_to :account
+
+  def category
+    QualifierCategory.find(qualifier_category_id)
+  end
 end

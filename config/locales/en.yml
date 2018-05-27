@@ -595,6 +595,20 @@ en:
     other: Other
     publishing: Publishing
     web: Web
+  qualifiers:
+    name: Name
+    endpoint: Endpoint
+    description: Description
+    version: Version
+    price: Price
+    category: Category
+    back: Go back
+    yours:
+      add: Add Qualifier
+      new: New Qualifier
+      update: Edit Qualifier
+      delete: Delete Qualifier
+      destroy: "Are you sure you want to delete %{name}?"
   remote_follow:
     acct: Enter your username@domain you want to follow from
     missing_resource: Could not find the required redirect URL for your account
@@ -660,6 +674,7 @@ en:
     settings: Settings
     two_factor_authentication: Two-factor Auth
     your_apps: Your applications
+    your_qualifiers: Your qualifiers
   statuses:
     attached:
       description: 'Attached: %{attached}'

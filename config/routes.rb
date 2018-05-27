@@ -94,6 +94,7 @@ Rails.application.routes.draw do
     end
 
     resource :follower_domains, only: [:show, :update]
+    resources :your_qualifiers, controller: 'savyasachi/your_qualifiers'
 
     resources :applications, except: [:edit] do
       member do

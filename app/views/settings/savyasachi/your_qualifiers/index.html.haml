@@ -1,0 +1,18 @@
+- content_for :page_title do
+  = t('settings.your_qualifiers')
+
+.table-wrapper
+  %table.table
+    %thead
+      %tr
+        %th= t('qualifiers.name')
+        %th= t('qualifiers.version')
+        %th= t('qualifiers.yours.delete')
+    %tbody
+      - @qualifiers.each do |qualifier|
+        %tr
+          %td= link_to qualifier.name, settings_your_qualifier_path(qualifier)
+          %th= qualifier.version
+          %td= table_link_to 'times', '', settings_your_qualifier_path(qualifier), method: :delete, data: { confirm: t('qualifiers.yours.destroy', name: qualifier.name) }, title: t('qualifiers.yours.delete')
+
+= link_to t('qualifiers.yours.add'), new_settings_your_qualifier_url, class: 'button'

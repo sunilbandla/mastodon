@@ -1,0 +1,12 @@
+- content_for :page_title do
+  = t('qualifiers.yours.new')
+
+= simple_form_for @qualifier, url: settings_your_qualifiers_path do |f|
+  = render 'form', f: f
+
+  .actions
+    = f.button :button, t('qualifiers.yours.add'), type: :submit
+
+%hr/
+
+= link_to t('qualifiers.back'), settings_your_qualifiers_path, class: 'button button-alternative-2 webapp-btn'
