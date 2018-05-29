@@ -18,7 +18,18 @@ class Qualifier < ApplicationRecord
   belongs_to :qualifier_category
   belongs_to :account
 
+  validates :name, presence: true, length: { minimum: 3 }
+  validates :description, presence: true, length: { minimum: 10 }
+  validates :endpoint, presence: true, length: { minimum: 10 }
+  validates :price, presence: true
+  validates :version, presence: true
+
   def category
     QualifierCategory.find(qualifier_category_id)
   end
+
+  def account
+    Account.find_by(id: account_id)
+  end
+
 end

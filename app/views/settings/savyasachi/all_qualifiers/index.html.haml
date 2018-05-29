@@ -1,0 +1,16 @@
+- content_for :page_title do
+  = t('settings.all_qualifiers')
+
+.table-wrapper
+  %table.table
+    %thead
+      %tr
+        %th= t('qualifiers.name')
+        %th= t('qualifiers.description')
+        %th= t('qualifiers.all.owner')
+    %tbody
+      - @qualifiers.each do |qualifier|
+        %tr
+          %td= link_to qualifier.name, settings_all_qualifier_path(qualifier)
+          %th= qualifier.description
+          %td= link_to qualifier.account.username, "/users/#{qualifier.account.username}"

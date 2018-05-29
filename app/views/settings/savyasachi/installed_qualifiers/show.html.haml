@@ -11,19 +11,20 @@
         %th= t('qualifiers.trial')
         %td= @installed_qualifier.trial ? t('qualifiers.yes') : t('qualifiers.no')
 
-.table-wrapper
-  %table.table
-    %thead
-      %tr
-        %th= t('qualifiers.installed.filter_condition')
-        %th= t('qualifiers.installed.action_type')
-        %th= t('qualifiers.installed.folder_name')
-    %tbody
-      - @installed_qualifier.qualifier_filters.each do |qualifier_filter|
+-if (@installed_qualifier.qualifier_filters.length > 0)
+  .table-wrapper
+    %table.table
+      %thead
         %tr
-          %td= qualifier_filter.condition.name
-          %td= qualifier_filter.action_config.type.name
-          %td= qualifier_filter.action_config.folder.name
+          %th= t('qualifiers.installed.filter_condition')
+          %th= t('qualifiers.installed.action_type')
+          %th= t('qualifiers.installed.folder_name')
+      %tbody
+        - @installed_qualifier.qualifier_filters.each do |qualifier_filter|
+          %tr
+            %td= qualifier_filter.condition.name
+            %td= qualifier_filter.action_config.type.name
+            %td= qualifier_filter.action_config.folder.name
 
 %hr/
 

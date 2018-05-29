@@ -1,0 +1,40 @@
+- content_for :page_title do
+  = @qualifier.name
+
+.table-wrapper
+  %table.table
+    %tbody
+      %tr
+        %th= t('qualifiers.name')
+        %td= @qualifier.name
+      %tr
+        %th= t('qualifiers.category')
+        %td= @qualifier.category.name
+      %tr{ rowspan: 2}
+        %th= t('qualifiers.description')
+        %td= @qualifier.description
+      %tr
+        %th= t('qualifiers.all.owner')
+        %td= link_to @qualifier.account.username, "/users/#{@qualifier.account.username}"
+      %tr
+        %th= t('qualifiers.endpoint')
+        %td= @qualifier.endpoint
+      %tr
+        %th= t('qualifiers.version')
+        %td= @qualifier.version
+      %tr
+        %th= t('qualifiers.price')
+        %td= @qualifier.price
+
+%hr/
+
+- if (!@installed_qualifier.nil?)
+  = link_to t('qualifiers.installed.edit'), edit_settings_installed_qualifier_path, class: 'button'
+- else
+  = form_tag settings_installed_qualifiers_path, method: :post, class: 'simple_form' do
+    = hidden_field_tag :qualifier_id, @qualifier.id
+    = button_tag t('qualifiers.all.install'), type: :submit
+
+%hr/
+
+= link_to t('qualifiers.back'), settings_all_qualifiers_path, class: 'button button-alternative-2 webapp-btn'
