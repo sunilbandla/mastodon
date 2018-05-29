@@ -20,6 +20,7 @@ class Settings::Savyasachi::YourQualifiersController < ApplicationController
   end
 
   def create
+    # TODO add not null validations for all columns
     @qualifier = Qualifier.new(qualifier_params)
     @qualifier[:account_id] = @account.id
     if @qualifier.save!

@@ -95,6 +95,7 @@ Rails.application.routes.draw do
 
     resource :follower_domains, only: [:show, :update]
     resources :your_qualifiers, controller: 'savyasachi/your_qualifiers'
+    resources :installed_qualifiers, controller: 'savyasachi/installed_qualifiers', only: [:index, :show, :edit, :update, :destroy]
 
     resources :applications, except: [:edit] do
       member do

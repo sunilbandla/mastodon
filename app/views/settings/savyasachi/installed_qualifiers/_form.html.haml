@@ -1,0 +1,17 @@
+.fields-group
+  = f.input :enabled, as: :boolean, wrapper: :with_label, hint: t('qualifiers.enabled')
+
+= f.simple_fields_for :qualifier_filters do |qf|
+  .fields-group
+    = qf.label :filter_condition, t('qualifiers.installed.filter_condition')
+    = qf.association :filter_condition, required: true, input_html: { 'aria-label' => t('qualifiers.installed.filter_condition') }
+
+  = qf.fields_for :action_config do |af|
+    .fields-group
+      = af.label :action_type, t('qualifiers.installed.action_type')
+      = af.association :action_type, required: true, input_html: { 'aria-label' => t('qualifiers.installed.action_type') }
+
+      .fields-group
+      = af.label :folder_label, t('qualifiers.installed.folder_label')
+      %div
+        = af.collection_select :folder_label_id, FolderLabel.where(account_id: @account.id), :id, :name, required: true, input_html: { 'aria-label' => t('qualifiers.installed.folder_label') }

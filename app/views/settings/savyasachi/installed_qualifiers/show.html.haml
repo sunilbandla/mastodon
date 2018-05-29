@@ -1,0 +1,34 @@
+- content_for :page_title do
+  = @installed_qualifier.qualifier.name
+
+.table-wrapper
+  %table.table
+    %tbody
+      %tr
+        %th= t('qualifiers.enabled')
+        %td= @installed_qualifier.enabled ? t('qualifiers.yes') : t('qualifiers.no')
+      %tr
+        %th= t('qualifiers.trial')
+        %td= @installed_qualifier.trial ? t('qualifiers.yes') : t('qualifiers.no')
+
+.table-wrapper
+  %table.table
+    %thead
+      %tr
+        %th= t('qualifiers.installed.filter_condition')
+        %th= t('qualifiers.installed.action_type')
+        %th= t('qualifiers.installed.folder_name')
+    %tbody
+      - @installed_qualifier.qualifier_filters.each do |qualifier_filter|
+        %tr
+          %td= qualifier_filter.condition.name
+          %td= qualifier_filter.action_config.type.name
+          %td= qualifier_filter.action_config.folder.name
+
+%hr/
+
+= link_to t('qualifiers.installed.edit'), edit_settings_installed_qualifier_path, class: 'button'
+
+%hr/
+
+= link_to t('qualifiers.back'), settings_installed_qualifiers_path, class: 'button button-alternative-2 webapp-btn'

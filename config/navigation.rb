@@ -15,6 +15,7 @@ SimpleNavigation::Configuration.run do |navigation|
       settings.item :authorized_apps, safe_join([fa_icon('list fw'), t('settings.authorized_apps')]), oauth_authorized_applications_url
       settings.item :follower_domains, safe_join([fa_icon('users fw'), t('settings.followers')]), settings_follower_domains_url
       settings.item :your_qualifiers, safe_join([fa_icon('sliders fw'), t('settings.your_qualifiers')]), settings_your_qualifiers_url
+      settings.item :installed_qualifiers, safe_join([fa_icon('sliders fw'), t('settings.installed_qualifiers')]), settings_installed_qualifiers_url
     end
 
     primary.item :invites, safe_join([fa_icon('user-plus fw'), t('invites.title')]), invites_path, if: proc { Setting.min_invite_role == 'user' }

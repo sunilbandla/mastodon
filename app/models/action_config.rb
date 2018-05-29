@@ -12,4 +12,13 @@
 class ActionConfig < ApplicationRecord
   belongs_to :action_type
   belongs_to :folder_label
+
+  def type
+    ActionType.find(action_type_id)
+  end
+
+  def folder
+    FolderLabel.find(folder_label_id)
+  end
+
 end

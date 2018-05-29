@@ -16,4 +16,11 @@
 class QualifierConsumer < ApplicationRecord
   belongs_to :account
   belongs_to :qualifier
+  has_many :qualifier_filters
+  accepts_nested_attributes_for :qualifier_filters, allow_destroy: true, reject_if: :new_record?
+
+  def qualifier
+    Qualifier.find(qualifier_id)
+  end
+
 end

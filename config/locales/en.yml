@@ -603,12 +603,26 @@ en:
     price: Price
     category: Category
     back: Go back
+    active: Active
+    trial: Trial
+    enabled: Enabled
+    payment_date: Payment date
+    yes: "Yes"
+    no: "No"
     yours:
-      add: Add Qualifier
-      new: New Qualifier
-      update: Edit Qualifier
-      delete: Delete Qualifier
+      add: Add qualifier
+      new: New qualifier
+      update: Edit qualifier
+      delete: Delete qualifier
       destroy: "Are you sure you want to delete %{name}?"
+    installed:
+      filter_condition: Filter condition
+      action_type: Action type
+      folder_name: Folder
+      edit: Edit qualifier configuration
+      delete: "Uninstall qualifier"
+      destroy: "Uninstall qualifier %(name)"
+
   remote_follow:
     acct: Enter your username@domain you want to follow from
     missing_resource: Could not find the required redirect URL for your account
@@ -675,6 +689,7 @@ en:
     two_factor_authentication: Two-factor Auth
     your_apps: Your applications
     your_qualifiers: Your qualifiers
+    installed_qualifiers: Installed qualifiers
   statuses:
     attached:
       description: 'Attached: %{attached}'
