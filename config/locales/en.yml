@@ -612,6 +612,12 @@ en:
     all:
       owner: Owner
       install: Install qualifier
+      reviews: Reviews
+      add_review: Add review
+      update_review: Update review
+      comment: Comment
+      save_review_failed: Review could not be saved. Please try again later.
+      review_invalid: Review could not be saved. Please submit a valid review.
     yours:
       add: Add qualifier
       new: New qualifier

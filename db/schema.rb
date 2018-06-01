@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_16_144930) do
+ActiveRecord::Schema.define(version: 2018_06_01_045836) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -425,13 +425,14 @@ ActiveRecord::Schema.define(version: 2018_05_16_144930) do
   end
 
   create_table "qualifier_ratings", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "account_id"
     t.bigint "qualifier_id"
     t.decimal "value", precision: 5, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "text"
+    t.index ["account_id"], name: "index_qualifier_ratings_on_account_id"
     t.index ["qualifier_id"], name: "index_qualifier_ratings_on_qualifier_id"
-    t.index ["user_id"], name: "index_qualifier_ratings_on_user_id"
   end
 
   create_table "qualifiers", force: :cascade do |t|
@@ -705,7 +706,7 @@ ActiveRecord::Schema.define(version: 2018_05_16_144930) do
   add_foreign_key "qualifier_filters", "filter_conditions"
   add_foreign_key "qualifier_filters", "qualifier_consumers"
   add_foreign_key "qualifier_ratings", "qualifiers"
-  add_foreign_key "qualifier_ratings", "users"
+  add_foreign_key "qualifier_ratings", "users", column: "account_id"
   add_foreign_key "qualifiers", "qualifier_categories"
   add_foreign_key "qualifiers", "users", column: "account_id"
   add_foreign_key "report_notes", "accounts", on_delete: :cascade

@@ -35,6 +35,12 @@
     = hidden_field_tag :qualifier_id, @qualifier.id
     = button_tag t('qualifiers.all.install'), type: :submit
 
-%hr/
+%br/
+%br/
+
+= link_to t('qualifiers.all.reviews'), settings_all_qualifier_qualifier_ratings_path(@qualifier.id), class: 'button button-alternative-2 webapp-btn'
+
+%br
+%br
 
 = link_to t('qualifiers.back'), settings_all_qualifiers_path, class: 'button button-alternative-2 webapp-btn'

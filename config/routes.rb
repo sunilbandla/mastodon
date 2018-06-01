@@ -94,7 +94,10 @@ Rails.application.routes.draw do
     end
 
     resource :follower_domains, only: [:show, :update]
-    resources :all_qualifiers, controller: 'savyasachi/all_qualifiers'
+    resources :all_qualifiers, controller: 'savyasachi/all_qualifiers' do
+      resources :qualifier_ratings, controller: 'savyasachi/qualifier_ratings'
+    end
+    # resources :qualifier_ratings, controller: 'savyasachi/qualifier_ratings'
     resources :your_qualifiers, controller: 'savyasachi/your_qualifiers'
     resources :installed_qualifiers, controller: 'savyasachi/installed_qualifiers'
 
