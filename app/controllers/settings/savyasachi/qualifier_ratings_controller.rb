@@ -23,6 +23,7 @@ class Settings::Savyasachi::QualifierRatingsController < ApplicationController
   def create
     @qualifier_rating = QualifierRating.new(rating_params)
     @qualifier_rating[:account_id] = @account.id
+    @qualifier_rating[:value] = Integer(@qualifier_rating[:value]) rescue false
     if !@qualifier_rating.valid?
       flash[:error] = I18n.t('qualifiers.all.review_invalid')
       redirect_to settings_all_qualifier_qualifier_ratings_path(@qualifier_rating[:qualifier_id])
@@ -36,6 +37,12 @@ class Settings::Savyasachi::QualifierRatingsController < ApplicationController
       redirect_to settings_all_qualifier_qualifier_ratings_path(@qualifier_rating[:qualifier_id])
       return
     end
+    redirect_to settings_all_qualifier_qualifier_ratings_path(@qualifier_rating[:qualifier_id])
+  end
+
+  def destroy
+    @qualifier_rating = QualifierRating.find_by(id: params[:id], account_id: @account.id)
+    @qualifier_rating.destroy
     redirect_to settings_all_qualifier_qualifier_ratings_path(@qualifier_rating[:qualifier_id])
   end
 

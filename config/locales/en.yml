@@ -613,9 +613,14 @@ en:
       owner: Owner
       install: Install qualifier
       reviews: Reviews
+      no_reviews: There are no reviews yet.
       add_review: Add review
       update_review: Update review
+      delete_review: Delete review
+      destroy_review: Are you sure you want to delete your review?
       comment: Comment
+      rating_value: Rating
+      rating_gave: rated it %{value} / 100
       save_review_failed: Review could not be saved. Please try again later.
       review_invalid: Review could not be saved. Please submit a valid review.
     yours:

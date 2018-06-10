@@ -1,10 +1,16 @@
 - content_for :page_title do
   = t('qualifiers.all.reviews')
 
+- if (@ratings.length == 0)
+  %h4= t('qualifiers.all.no_reviews')
+
 - @ratings.each do |rating|
   %div
     %strong= link_to rating.account.username, TagManager.instance.url_for(rating.account), class: 'hint', style: 'color: #2b90d9'
+    %span.muted-hint= t('qualifiers.all.rating_gave', value: rating.value.floor)
     %span.muted-hint{ style: 'float: right' }= rating.updated_at
+    - if (rating.account.id == @account.id)
+      = link_to t('qualifiers.all.delete_review'), settings_all_qualifier_qualifier_rating_path(@qualifier_id, rating), method: :delete, data: { confirm: t('qualifiers.all.destroy_review') }, title: t('qualifiers.all.delete_review'), class: 'link hint', style: 'float: right; color: #2b90d9; margin-right: 30px;'
   %div
     %br
     %span= rating.text
@@ -17,5 +23,9 @@
       = rf.input :qualifier_id, :as => :hidden, :input_html => { :value => @qualifier_id }
       = rf.label :text, t('qualifiers.all.comment')
       = rf.input :text, placeholder: t('qualifiers.all.comment'), required: true, input_html: { 'aria-label' => t('qualifiers.all.comment') }
+
+    .fields-group
+      = rf.label :value, t('qualifiers.all.rating_value')
+      = rf.input :value, collection: 0..100, input_html: { 'aria-label' => t('qualifiers.all.rating_value') }, selected: 0, include_blank: false, include_hidden: false
 
     = button_tag t('qualifiers.all.add_review'), type: :submit
