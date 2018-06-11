@@ -24,7 +24,16 @@
         %td= @qualifier.version
       %tr
         %th= t('qualifiers.price')
-        %td= @qualifier.price
+        - if (!@qualifier.price.nil?)
+          %td= @qualifier.price
+        - else
+          %td= t('qualifiers.all.free')
+      %tr
+        %th= t('qualifiers.all.ratings_count')
+        %td= @qualifier.ratings_count.floor unless @qualifier.ratings_count.nil?
+      %tr
+        %th= t('qualifiers.all.ratings_avg')
+        %td= t('qualifiers.all.rating_avg_out_of', avg: @qualifier.ratings_avg) unless @qualifier.ratings_avg.nil?
 
 %hr/
 

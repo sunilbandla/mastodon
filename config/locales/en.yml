@@ -620,9 +620,13 @@ en:
       destroy_review: Are you sure you want to delete your review?
       comment: Comment
       rating_value: Rating
-      rating_gave: rated it %{value} / 100
+      rating_gave: "rated it %{value} / 100"
       save_review_failed: Review could not be saved. Please try again later.
       review_invalid: Review could not be saved. Please submit a valid review.
+      ratings_count: Number of reviews
+      ratings_avg: Average rating
+      free: Free
+      rating_avg_out_of: "%{avg} out of 100"
     yours:
       add: Add qualifier
       new: New qualifier

@@ -22,7 +22,7 @@
     .fields-group
       = rf.input :qualifier_id, :as => :hidden, :input_html => { :value => @qualifier_id }
       = rf.label :text, t('qualifiers.all.comment')
-      = rf.input :text, placeholder: t('qualifiers.all.comment'), required: true, input_html: { 'aria-label' => t('qualifiers.all.comment') }
+      = rf.input :text, as: :text, placeholder: t('qualifiers.all.comment'), required: true, input_html: { 'aria-label' => t('qualifiers.all.comment') }
 
     .fields-group
       = rf.label :value, t('qualifiers.all.rating_value')

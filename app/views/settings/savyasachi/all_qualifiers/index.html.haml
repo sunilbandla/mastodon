@@ -8,9 +8,13 @@
         %th= t('qualifiers.name')
         %th= t('qualifiers.description')
         %th= t('qualifiers.all.owner')
+        %th= t('qualifiers.all.ratings_avg')
+        %th= t('qualifiers.all.ratings_count')
     %tbody
       - @qualifiers.each do |qualifier|
         %tr
           %td= link_to qualifier.name, settings_all_qualifier_path(qualifier)
           %th= qualifier.description
-          %td= link_to qualifier.account.username, "/users/#{qualifier.account.username}"
+          %td= link_to qualifier.account.username, TagManager.instance.url_for(qualifier.account)
+          %td= t('qualifiers.all.rating_avg_out_of', avg: qualifier.ratings_avg) unless qualifier.ratings_avg.nil?
+          %td= qualifier.ratings_count

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_01_045836) do
+ActiveRecord::Schema.define(version: 2018_06_11_004913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -444,6 +444,8 @@ ActiveRecord::Schema.define(version: 2018_06_01_045836) do
     t.bigint "account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "ratings_count"
+    t.decimal "ratings_avg", precision: 5, scale: 2
     t.index ["account_id"], name: "index_qualifiers_on_account_id"
     t.index ["qualifier_category_id"], name: "index_qualifiers_on_qualifier_category_id"
   end

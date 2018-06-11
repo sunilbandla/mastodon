@@ -12,6 +12,8 @@
 #  account_id            :bigint(8)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  ratings_count         :decimal(, )
+#  ratings_avg           :decimal(5, 2)
 #
 
 class Qualifier < ApplicationRecord
@@ -24,6 +26,8 @@ class Qualifier < ApplicationRecord
   validates :price, presence: true
   validates :version, presence: true
 
+  default_scope { order('ratings_avg DESC NULLS LAST') }
+
   def category
     QualifierCategory.find(qualifier_category_id)
   end
@@ -32,4 +36,21 @@ class Qualifier < ApplicationRecord
     Account.find_by(id: account_id)
   end
 
+  def ratings
+    QualifierRating.where(qualifier_id: id)
+  end
+
+  def update_ratings_avg
+    @value = 0
+    self.ratings.each do |rating|
+      @value = @value + rating.value
+    end
+    @total = self.ratings.size
+    if @total > 0
+      avg = @value.to_f / @total.to_f
+    else
+      avg = 0
+    end
+    update_attribute(:ratings_avg, avg.round(2))
+  end
 end
