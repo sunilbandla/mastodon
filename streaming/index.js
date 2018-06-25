@@ -307,6 +307,26 @@ const startWorker = (workerId) => {
     });
   };
 
+  const authorizeFolderAccess = (id, req, next) => {
+    pgPool.connect((err, client, done) => {
+      if (err) {
+        next(false);
+        return;
+      }
+
+      client.query('SELECT id, account_id FROM folder_labels WHERE id = $1 LIMIT 1', [id], (err, result) => {
+        done();
+
+        if (err || result.rows.length === 0 || result.rows[0].account_id !== req.accountId) {
+          next(false);
+          return;
+        }
+
+        next(true);
+      });
+    });
+  };
+
   const streamFrom = (id, req, output, attachCloseHandler, needsFiltering = false, notificationOnly = false) => {
     const accountId = req.accountId || req.remoteAddress;
 
@@ -554,6 +574,19 @@ const startWorker = (workerId) => {
         }
 
         const channel = `timeline:list:${listId}`;
+        streamFrom(channel, req, streamToWs(req, ws), streamWsEnd(req, ws, subscriptionHeartbeat(channel)));
+      });
+      break;
+    case 'folder':
+      const folderId = location.query.folder;
+
+      authorizeFolderAccess(folderId, req, authorized => {
+        if (!authorized) {
+          ws.close();
+          return;
+        }
+
+        const channel = `folder:${folderId}`;
         streamFrom(channel, req, streamToWs(req, ws), streamWsEnd(req, ws, subscriptionHeartbeat(channel)));
       });
       break;
