@@ -64,6 +64,7 @@ class FanOutOnWriteService < BaseService
     status.mentions.includes(:account).each do |mention|
       mentioned_account = mention.account
       next if !mentioned_account.local? || !mentioned_account.following?(status.account)
+      Rails.logger.debug "deliver_to_mentioned_followers:push_to_folder"
       FolderManager.instance.push_to_folder(mentioned_account, status)
       next if FeedManager.instance.filter?(:home, status, mention.account_id)
       FeedManager.instance.push_to_home(mentioned_account, status)

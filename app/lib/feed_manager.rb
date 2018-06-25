@@ -159,7 +159,7 @@ class FeedManager
     check_for_blocks.concat([status.reblog.account_id]) if status.reblog?
 
     return true if blocks_or_mutes?(receiver_id, check_for_blocks, :home)
-
+    Rails.logger.debug "feed_manager:StatusQualifierResultFilterService.filter?"
     return true if Savyasachi::StatusQualifierResultFilterService.new.filter?(status, receiver_id)
 
     if status.reply? && !status.in_reply_to_account_id.nil?                                                                      # Filter out if it's a reply

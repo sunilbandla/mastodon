@@ -17,4 +17,4 @@
           %th= qualifier.description
           %td= link_to qualifier.account.username, TagManager.instance.url_for(qualifier.account)
           %td= t('qualifiers.all.rating_avg_out_of', avg: qualifier.ratings_avg) unless qualifier.ratings_avg.nil?
-          %td= qualifier.ratings_count
+          %td= qualifier.ratings_count.floor unless qualifier.ratings_count.nil?
