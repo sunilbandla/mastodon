@@ -74,7 +74,8 @@ class Savyasachi::CallStatusQualifierService < BaseService
     accept = 'text/html'
     accept = 'application/json, ' + accept
 
-    Request.new(:post, @url, form: qualifier_endpoint_params).add_headers('Accept' => accept).perform(&block)
+    request = Request.new(:post, @url, :json => qualifier_endpoint_params).add_headers('Accept' => accept)
+    request.perform(&block)
   end
 
   def process_response(response, terminal = false)
@@ -84,7 +85,11 @@ class Savyasachi::CallStatusQualifierService < BaseService
       body = response.body_with_limit
       json = body_to_json(body)
       Rails.logger.debug "Response #{json}"
-      json['result']
+      result = json['result']
+      if (result.nil? && !json['body'].nil?)
+        result = json['body']['result']
+      end
+      result
     end
   end
 

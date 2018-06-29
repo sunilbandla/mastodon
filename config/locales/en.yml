@@ -709,7 +709,7 @@ en:
     settings: Settings
     two_factor_authentication: Two-factor Auth
     your_apps: Your applications
-    all_qualifiers: Browse qualifiers
+    all_qualifiers: Qualifier Store
     your_qualifiers: Your qualifiers
     installed_qualifiers: Installed qualifiers
   statuses:
