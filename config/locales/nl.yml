@@ -330,8 +330,8 @@ nl:
           desc_html: Toestaan dat iedereen een account kan registereren
           title: Open registratie
       show_known_fediverse_at_about_page:
-        desc_html: Wanneer ingeschakeld wordt de globale tijdlijn als voorbeeld getoond en wanneer uitgeschakeld de lokale tijdljn.
-        title: De globale tijdlijn als voorbeeld tonen
+        desc_html: Wanneer ingeschakeld wordt de globale tijdlijn op de voorpagina getoond en wanneer uitgeschakeld de lokale tijdljn.
+        title: De globale tijdlijn op de voorpagina tonen
       show_staff_badge:
         desc_html: Medewerkersbadge op profielpagina tonen
         title: Medewerkersbadge tonen
@@ -350,7 +350,7 @@ nl:
         title: Thumbnail Mastodonserver
       timeline_preview:
         desc_html: Toon een openbare tijdlijn op de voorpagina
-        title: Tijdlijn als voorbeeld tonen
+        title: Tijdlijn op de voorpagina tonen
       title: Server-instellingen
     statuses:
       back_to_account: Terug naar accountpagina
@@ -514,6 +514,7 @@ nl:
       '86400': 1 dag
     expires_in_prompt: Nooit
     generate: Genereren
+    invited_by: 'Jij bent uitgenodigd door:'
     max_uses:
       one: 1 keer
       other: "%{count} keer"
@@ -674,6 +675,7 @@ nl:
     disallowed_hashtags:
       one: 'bevatte een niet toegestane hashtag: %{tags}'
       other: 'bevatte niet toegestane hashtags: %{tags}'
+    language_detection: Taal automatisch detecteren
     open_in_web: In de webapp openen
     over_character_limit: Limiet van %{max} tekens overschreden
     pin_errors:

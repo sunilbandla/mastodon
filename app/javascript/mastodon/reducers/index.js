@@ -28,6 +28,7 @@ import lists from './lists';
 import listEditor from './list_editor';
 import folders from './folders';
 import folderEditor from './folder_editor';
+import filters from './filters';
 
 const reducers = {
   dropdown_menu,
@@ -59,6 +60,7 @@ const reducers = {
   listEditor,
   folders,
   folderEditor,
+  filters,
 };
 
 export default combineReducers(reducers);
