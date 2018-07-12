@@ -46,6 +46,9 @@ class ProcessMentionsService < BaseService
   def create_notification(mention)
     mentioned_account = mention.account
 
+    Rails.logger.debug "Delivering status notification for #{@status.id} to folder"
+    FeedInsertWorker.perform_async(@status.id, mentioned_account.id, :folder)
+
     if mentioned_account.local?
       LocalNotificationWorker.perform_async(mention.id)
     elsif mentioned_account.ostatus? && !@status.stream_entry.hidden?
