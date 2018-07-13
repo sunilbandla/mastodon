@@ -1,28 +1,17 @@
 .fields-group
-  = f.label :name, t('qualifiers.name')
-  = f.input :name, placeholder: t('qualifiers.name'), autofocus: true, required: true, input_html: { 'aria-label' => t('qualifiers.name') }
+  = f.input :name, placeholder: t('qualifiers.name'), autofocus: true, required: true, input_html: { 'aria-label' => t('qualifiers.name') }, wrapper: :with_block_label
 
-  %br/
+.fields-group
+  = f.input :description, as: :text, placeholder: t('qualifiers.description'), required: true, input_html: { 'aria-label' => t('qualifiers.description') }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.description')
 
-  = f.label :description, t('qualifiers.description')
-  = f.text_area :description, placeholder: t('qualifiers.description'), required: true, input_html: { 'aria-label' => t('qualifiers.description') }
+.fields-group
+  = f.input :version, placeholder: t('qualifiers.version'), required: true, input_html: { 'aria-label' => t('qualifiers.version') }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.version')
 
-  %br/
+.fields-group
+  = f.input :endpoint, placeholder: t('qualifiers.endpoint'), required: true, input_html: { 'aria-label' => t('qualifiers.endpoint') }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.endpoint')
 
-  = f.label :version, t('qualifiers.version')
-  = f.input :version, placeholder: t('qualifiers.version'), required: true, input_html: { 'aria-label' => t('qualifiers.version') }
+.fields-group
+  = f.input :price, type: :number, placeholder: t('qualifiers.price'), required: true, input_html: { 'aria-label' => t('qualifiers.price'), 'max' => 0, 'disabled' => true, 'readonly' => true }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.price')
 
-  %br/
-
-  = f.label :endpoint, t('qualifiers.endpoint')
-  = f.input :endpoint, placeholder: t('qualifiers.endpoint'), required: true, input_html: { 'aria-label' => t('qualifiers.endpoint') }
-
-  %br/
-
-  = f.label :price, t('qualifiers.price')
-  = f.input :price, type: :number, placeholder: t('qualifiers.price'), required: true, input_html: { 'aria-label' => t('qualifiers.price'), 'max' => 0, 'disabled' => true, 'readonly' => true }
-
-  %br/
-
-  = f.label :qualifier_category, t('qualifiers.category')
-  = f.association :qualifier_category, required: true, input_html: { 'aria-label' => t('qualifiers.category') }
+.fields-group
+  = f.association :qualifier_category, required: true, input_html: { 'aria-label' => t('qualifiers.category') }, wrapper: :with_label

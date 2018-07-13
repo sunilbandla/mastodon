@@ -11,7 +11,7 @@
       -#   %th= t('qualifiers.trial')
       -#   %td= @installed_qualifier.trial ? t('qualifiers.yes') : t('qualifiers.no')
 
--if (@installed_qualifier.qualifier_filters.length > 0)
+- if (@installed_qualifier.qualifier_filters.length > 0)
   .table-wrapper
     %table.table
       %thead
@@ -25,10 +25,13 @@
             %td= qualifier_filter.condition.name
             %td= qualifier_filter.action_config.type.name
             %td= qualifier_filter.action_config.folder.name
-
-%hr/
-
-= link_to t('qualifiers.installed.edit'), edit_settings_installed_qualifier_path, class: 'button'
+  %hr/
+  = link_to t('qualifiers.installed.edit'), edit_settings_installed_qualifier_path, class: 'button'
+- else  
+  %hr/
+  %div= t('qualifiers.installed.setup_filter_help')
+  %br/
+  = link_to t('qualifiers.installed.setup_filter'), edit_settings_installed_qualifier_path, class: 'button'
 
 %hr/
 

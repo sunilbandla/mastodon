@@ -652,14 +652,16 @@ en:
       new: New qualifier
       update: Edit qualifier
       delete: Delete qualifier
-      destroy: "Are you sure you want to delete %{name}?"
+      destroy: "Are you sure you want to delete - %{name}?"
     installed:
       filter_condition: Filter condition
       action_type: Action type
       folder_name: Folder
       edit: Edit qualifier configuration
+      setup_filter_help: Add a filter using the button below to filter out statuses based on this qualifier's outcome.
+      setup_filter: Add filter
       delete: "Uninstall qualifier"
-      destroy: "Uninstall qualifier %{name}"
+      destroy: "Uninstall qualifier - %{name}?"
       invalid_action_config: "Please select an action type"
       invalid_qualifier_filter: "Please make sure qualifier filter is valid"
       invalid_filter_condition: "Please select a filter condition"

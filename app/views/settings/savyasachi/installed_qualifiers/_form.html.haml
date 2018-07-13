@@ -1,17 +1,15 @@
 .fields-group
-  = f.input :enabled, as: :boolean, wrapper: :with_label, hint: t('qualifiers.enabled')
+  = f.input :enabled, as: :boolean, wrapper: :with_label, hint: t('simple_form.hints.qualifiers.enabled')
 
-= f.simple_fields_for :qualifier_filters do |qf|
+= f.simple_fields_for :qualifier_filters do |qualifier_field|
   .fields-group
-    = qf.label :filter_condition, t('qualifiers.installed.filter_condition')
-    = qf.association :filter_condition, required: true, input_html: { 'aria-label' => t('qualifiers.installed.filter_condition') }
+    = qualifier_field.association :filter_condition, required: true, input_html: { 'aria-label' => t('qualifiers.installed.filter_condition') }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.filter_condition')
 
-  = qf.fields_for :action_config do |af|
+  = qualifier_field.fields_for :action_config do |action_config_field|
     .fields-group
-      = af.label :action_type, t('qualifiers.installed.action_type')
-      = af.association :action_type, required: true, input_html: { 'aria-label' => t('qualifiers.installed.action_type') }
+      = action_config_field.association :action_type, required: true, input_html: { 'aria-label' => t('qualifiers.installed.action_type') }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.action_type')
 
-      .fields-group
-      = af.label :folder_label, t('qualifiers.installed.folder_label')
+    .fields-group
+      = action_config_field.label :folder_label, t('qualifiers.installed.folder_name')
       %div
-        = af.collection_select :folder_label_id, FolderLabel.where(account_id: @account.id), :id, :name, required: true, input_html: { 'aria-label' => t('qualifiers.installed.folder_label') }
+        = action_config_field.collection_select :folder_label_id, FolderLabel.where(account_id: @account.id), :id, :name, required: true, input_html: { 'aria-label' => t('qualifiers.installed.folder_name') }
