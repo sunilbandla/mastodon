@@ -4,7 +4,7 @@ class Api::V1::Savyasachi::FolderLabelsController < Api::BaseController
   include Authorization
 
   before_action :authorize_if_got_token
-  before_action -> { doorkeeper_authorize! :write }, only:  [:create, :destroy]
+  before_action -> { doorkeeper_authorize! :write }, only:  [:create, :update, :destroy]
   before_action :require_user!
 
   respond_to :json

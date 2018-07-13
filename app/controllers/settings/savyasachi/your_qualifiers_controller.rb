@@ -23,6 +23,8 @@ class Settings::Savyasachi::YourQualifiersController < ApplicationController
     # TODO add not null validations for all columns
     @qualifier = Qualifier.new(qualifier_params)
     @qualifier[:account_id] = @account.id
+    # TODO remove price limit
+    @qualifier[:price] = 0
     if @qualifier.save!
       redirect_to settings_your_qualifier_path(@qualifier)
     else
@@ -34,6 +36,8 @@ class Settings::Savyasachi::YourQualifiersController < ApplicationController
   end
 
   def update
+    # TODO remove price limit
+    @qualifier[:price] = 0
     if @qualifier.update(qualifier_params)
       redirect_to settings_your_qualifier_path(@qualifier)
     else

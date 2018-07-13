@@ -7,9 +7,9 @@
       %tr
         %th= t('qualifiers.enabled')
         %td= @installed_qualifier.enabled ? t('qualifiers.yes') : t('qualifiers.no')
-      %tr
-        %th= t('qualifiers.trial')
-        %td= @installed_qualifier.trial ? t('qualifiers.yes') : t('qualifiers.no')
+      -# %tr
+      -#   %th= t('qualifiers.trial')
+      -#   %td= @installed_qualifier.trial ? t('qualifiers.yes') : t('qualifiers.no')
 
 -if (@installed_qualifier.qualifier_filters.length > 0)
   .table-wrapper

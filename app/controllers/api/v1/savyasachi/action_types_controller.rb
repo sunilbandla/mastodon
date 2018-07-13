@@ -4,8 +4,8 @@ class Api::V1::Savyasachi::ActionTypesController < Api::BaseController
   include Authorization
 
   before_action :authorize_if_got_token
-  # before_action -> { doorkeeper_authorize! :write }, only:  [:create, :destroy]
-  # before_action :require_user!
+  before_action -> { doorkeeper_authorize! :write }, only:  [:create, :destroy]
+  before_action :require_user!
 
   respond_to :json
 

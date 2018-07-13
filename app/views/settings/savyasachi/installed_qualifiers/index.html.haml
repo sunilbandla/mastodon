@@ -7,7 +7,7 @@
       %tr
         %th= t('qualifiers.name')
         %th= t('qualifiers.active')
-        %th= t('qualifiers.trial')
+        -# %th= t('qualifiers.trial')
         %th= t('qualifiers.enabled')
         %th= t('qualifiers.installed.delete')
     %tbody
@@ -15,6 +15,6 @@
         %tr
           %td= link_to installed_qualifier.qualifier.name, settings_installed_qualifier_path(installed_qualifier)
           %td= installed_qualifier.active ? t('qualifiers.yes') : t('qualifiers.no')
-          %td= installed_qualifier.trial ? t('qualifiers.yes') : t('qualifiers.no')
+          -# %td= installed_qualifier.trial ? t('qualifiers.yes') : t('qualifiers.no')
           %td= installed_qualifier.enabled ? t('qualifiers.yes') : t('qualifiers.no')
           %td= table_link_to 'times', '', settings_installed_qualifier_path(installed_qualifier), method: :delete, data: { confirm: t('qualifiers.installed.destroy', name: installed_qualifier.qualifier.name) }, title: t('qualifiers.installed.delete')

@@ -8,6 +8,8 @@ class Settings::Savyasachi::AllQualifiersController < ApplicationController
   before_action :set_account
   before_action :set_qualifier, only: [:show]
 
+  helper_method :get_masked_endpoint
+
   def index
     @qualifiers = Qualifier.all
   end
@@ -25,4 +27,11 @@ class Settings::Savyasachi::AllQualifiersController < ApplicationController
     @qualifier = Qualifier.find(params[:id])
     @installed_qualifier = QualifierConsumer.find_by(qualifier_id: params[:id], account_id: @account.id)
   end
+
+  def get_masked_endpoint(endpoint)
+    url = "https://#{endpoint}" if URI.parse(endpoint).scheme.nil?
+    uri = URI.parse(endpoint)
+    "https://#{uri.host.downcase}/***"
+  end
+
 end

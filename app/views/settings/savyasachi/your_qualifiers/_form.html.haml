@@ -20,7 +20,7 @@
   %br/
 
   = f.label :price, t('qualifiers.price')
-  = f.input :price, type: :number, placeholder: t('qualifiers.price'), required: true, input_html: { 'aria-label' => t('qualifiers.price') }
+  = f.input :price, type: :number, placeholder: t('qualifiers.price'), required: true, input_html: { 'aria-label' => t('qualifiers.price'), 'max' => 0, 'disabled' => true, 'readonly' => true }
 
   %br/
 

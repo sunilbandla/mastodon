@@ -15,19 +15,19 @@
         %td= @qualifier.description
       %tr
         %th= t('qualifiers.all.owner')
-        %td= link_to @qualifier.account.username, "/users/#{@qualifier.account.username}"
+        %td= link_to @qualifier.account.username, TagManager.instance.url_for(@qualifier.account)
       %tr
         %th= t('qualifiers.endpoint')
-        %td= @qualifier.endpoint
+        %td= get_masked_endpoint(@qualifier.endpoint)
       %tr
         %th= t('qualifiers.version')
         %td= @qualifier.version
       %tr
         %th= t('qualifiers.price')
-        - if (!@qualifier.price.nil?)
-          %td= @qualifier.price
-        - else
+        - if (@qualifier.price.nil? || @qualifier.price == 0)
           %td= t('qualifiers.all.free')
+        - else
+          %td= @qualifier.price
       %tr
         %th= t('qualifiers.all.ratings_count')
         %td= @qualifier.ratings_count.floor unless @qualifier.ratings_count.nil?
