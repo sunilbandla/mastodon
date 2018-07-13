@@ -109,7 +109,12 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
   end
 
   def set_installed_qualifier
-    @installed_qualifier = QualifierConsumer.find_by(id: params[:id], account_id: @account.id)
+    @installed_qualifier = 
+      if QualifierConsumer.exists?(id: params[:id], account_id: @account.id)
+        QualifierConsumer.find_by(id: params[:id], account_id: @account.id)
+      else
+        QualifierConsumer.find_by(qualifier_id: params[:id], account_id: @account.id)
+      end
   end
 
   def action_config_params(qualifier_filter)
