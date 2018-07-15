@@ -648,6 +648,8 @@ en:
       free: Free
       rating_avg_out_of: "%{avg} out of 100"
     yours:
+      headers: HTTP headers
+      invalid_headers: Invalid JSON in HTTP headers
       add: Add qualifier
       new: New qualifier
       update: Edit qualifier

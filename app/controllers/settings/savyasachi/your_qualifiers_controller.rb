@@ -54,7 +54,7 @@ class Settings::Savyasachi::YourQualifiersController < ApplicationController
 
   def qualifier_params
     params.require(:qualifier).permit(
-      :name, :description, :qualifier_category_id, :endpoint, :price, :version, :account_id)
+      :name, :description, :qualifier_category_id, :endpoint, :price, :version, :account_id, :headers)
   end
 
   def set_account

@@ -49,9 +49,14 @@ class Savyasachi::CallStatusQualifierService < BaseService
 
   def call_qualifier_with_status(qualifier, status)
     @url = qualifier[:endpoint]
-    Rails.logger.debug "call url: #{status.id} #{@url}"
+    @headers = qualifier[:headers]
+    if !@headers.nil?
+      @headers.strip!
+      @headers = body_to_json(@headers)
+    end
+    Rails.logger.debug "call url: #{status.id} #{@url} #{@headers}"
     return if @url.blank?
-    result = process(@url, status)
+    result = process(@url, status, @headers)
     result
   rescue OpenSSL::SSL::SSLError => e
     Rails.logger.debug "SSL error: #{e}"
@@ -64,9 +69,10 @@ class Savyasachi::CallStatusQualifierService < BaseService
     nil
   end
 
-  def process(url, status, terminal = false)
+  def process(url, status, headers, terminal = false)
     @url = url
     @status = status
+    @headers = headers
     perform_request { |response| process_response(response, terminal) }
   end
 
@@ -75,6 +81,11 @@ class Savyasachi::CallStatusQualifierService < BaseService
     accept = 'application/json, ' + accept
 
     request = Request.new(:post, @url, :json => qualifier_endpoint_params).add_headers('Accept' => accept)
+    if !@headers.nil?
+      @headers.each do |header|
+        request.add_headers(header[0] => header[1])
+      end
+    end
     request.perform(&block)
   end
 

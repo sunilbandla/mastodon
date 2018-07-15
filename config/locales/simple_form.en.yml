@@ -39,6 +39,7 @@ en:
         enabled: Enable/disable this qualifier
         filter_condition: Select the qualifier outcome that should trigger an action. Qualifier description could have the possible outcomes of a qualifier for different types of status content.
         action_type: The action to be taken on a status if qualifier outcome matches the above condition
+        headers: HTTP header(s) to be sent to qualifier endpoint. Use them to send authentication headers to your endpoint. Header(s) must be specified in a JSON object.
     labels:
       account:
         fields:

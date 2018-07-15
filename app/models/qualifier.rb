@@ -14,6 +14,7 @@
 #  updated_at            :datetime         not null
 #  ratings_count         :decimal(, )
 #  ratings_avg           :decimal(5, 2)
+#  headers               :text
 #
 
 class Qualifier < ApplicationRecord
@@ -25,6 +26,8 @@ class Qualifier < ApplicationRecord
   validates :endpoint, presence: true, length: { minimum: 10 }
   validates :price, presence: true
   validates :version, presence: true
+
+  validates_with QualifierHeadersValidator
 
   default_scope { order('ratings_avg DESC NULLS LAST') }
 
