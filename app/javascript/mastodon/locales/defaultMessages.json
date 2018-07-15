@@ -646,6 +646,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Toots",
+        "id": "timeline.posts"
+      },
+      {
+        "defaultMessage": "Media",
+        "id": "timeline.media"
+      }
+    ],
+    "path": "app/javascript/mastodon/features/community_timeline/components/section_headline.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Local timeline",
         "id": "column.community"
       },
@@ -1049,6 +1062,57 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Are you sure you want to permanently delete this folder?",
+        "id": "confirmations.delete_folder.message"
+      },
+      {
+        "defaultMessage": "Delete",
+        "id": "confirmations.delete_folder.confirm"
+      },
+      {
+        "defaultMessage": "Edit folder",
+        "id": "folders.edit"
+      },
+      {
+        "defaultMessage": "Delete folder",
+        "id": "folders.delete"
+      },
+      {
+        "defaultMessage": "There is nothing in this folder yet.",
+        "id": "empty_column.folder"
+      }
+    ],
+    "path": "app/javascript/mastodon/features/folder_timeline/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "New folder name",
+        "id": "folders.new.name_placeholder"
+      },
+      {
+        "defaultMessage": "Add folder",
+        "id": "folders.new.create"
+      }
+    ],
+    "path": "app/javascript/mastodon/features/folders/components/new_folder_form.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Folders",
+        "id": "column.folders"
+      },
+      {
+        "defaultMessage": "Your folders",
+        "id": "folders.subheading"
+      }
+    ],
+    "path": "app/javascript/mastodon/features/folders/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Authorize",
         "id": "follow_request.authorize"
       },
@@ -1121,6 +1185,10 @@
       {
         "defaultMessage": "Pinned toots",
         "id": "navigation_bar.pins"
+      },
+      {
+        "defaultMessage": "Folders",
+        "id": "navigation_bar.folders"
       },
       {
         "defaultMessage": "Lists",
@@ -1501,6 +1569,32 @@
       }
     ],
     "path": "app/javascript/mastodon/features/public_timeline/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "New qualifier name",
+        "id": "qualifiers.new.name_placeholder"
+      },
+      {
+        "defaultMessage": "Add qualifier",
+        "id": "qualifiers.new.create"
+      }
+    ],
+    "path": "app/javascript/mastodon/features/qualifiers/components/new_qualifier_form.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Qualifiers",
+        "id": "column.qualifiers"
+      },
+      {
+        "defaultMessage": "Your qualifiers",
+        "id": "qualifiers.subheading"
+      }
+    ],
+    "path": "app/javascript/mastodon/features/qualifiers/index.json"
   },
   {
     "descriptors": [
@@ -1978,5 +2072,18 @@
       }
     ],
     "path": "app/javascript/mastodon/features/video/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Oops!",
+        "id": "alert.unexpected.title"
+      },
+      {
+        "defaultMessage": "An unexpected error occurred.",
+        "id": "alert.unexpected.message"
+      }
+    ],
+    "path": "app/javascript/mastodon/middleware/errors.json"
   }
 ]

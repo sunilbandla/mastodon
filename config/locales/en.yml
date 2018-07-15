@@ -616,58 +616,57 @@ en:
     publishing: Publishing
     web: Web
   qualifiers:
-    name: Name
-    endpoint: Endpoint
-    description: Description
-    version: Version
-    price: Price
-    category: Category
-    back: Go back
     active: Active
-    trial: Trial
-    enabled: Enabled
-    payment_date: Payment date
-    yes: "Yes"
-    no: "No"
     all:
-      owner: Owner
-      install: Install qualifier
-      reviews: Reviews
-      no_reviews: There are no reviews yet.
       add_review: Add review
-      update_review: Update review
+      comment: Comment
       delete_review: Delete review
       destroy_review: Are you sure you want to delete your review?
-      comment: Comment
-      rating_value: Rating
-      rating_gave: "rated it %{value} / 100"
-      save_review_failed: Review could not be saved. Please try again later.
-      review_invalid: Review could not be saved. Please submit a valid review.
-      ratings_count: Number of reviews
-      ratings_avg: Average rating
       free: Free
+      install: Install qualifier
+      no_reviews: There are no reviews yet.
+      owner: Owner
       rating_avg_out_of: "%{avg} out of 100"
+      rating_gave: rated it %{value} / 100
+      rating_value: Rating
+      ratings_avg: Average rating
+      ratings_count: Number of reviews
+      review_invalid: Review could not be saved. Please submit a valid review.
+      reviews: Reviews
+      save_review_failed: Review could not be saved. Please try again later.
+      update_review: Update review
+    back: Go back
+    category: Category
+    description: Description
+    enabled: Enabled
+    endpoint: Endpoint
+    'false': 'No'
+    installed:
+      action_type: Action type
+      delete: Uninstall qualifier
+      destroy: Uninstall qualifier - %{name}?
+      edit: Edit qualifier configuration
+      filter_condition: Filter condition
+      folder_name: Folder
+      invalid_action_config: Please select an action type
+      invalid_filter_condition: Please select a filter condition
+      invalid_qualifier_filter: Please make sure qualifier filter is valid
+      setup_filter: Add filter
+      setup_filter_help: Add a filter using the button below to filter out statuses based on this qualifier's outcome.
+    name: Name
+    payment_date: Payment date
+    price: Price
+    trial: Trial
+    'true': 'Yes'
+    version: Version
     yours:
+      add: Add qualifier
+      delete: Delete qualifier
+      destroy: Are you sure you want to delete - %{name}?
       headers: HTTP headers
       invalid_headers: Invalid JSON in HTTP headers
-      add: Add qualifier
       new: New qualifier
       update: Edit qualifier
-      delete: Delete qualifier
-      destroy: "Are you sure you want to delete - %{name}?"
-    installed:
-      filter_condition: Filter condition
-      action_type: Action type
-      folder_name: Folder
-      edit: Edit qualifier configuration
-      setup_filter_help: Add a filter using the button below to filter out statuses based on this qualifier's outcome.
-      setup_filter: Add filter
-      delete: "Uninstall qualifier"
-      destroy: "Uninstall qualifier - %{name}?"
-      invalid_action_config: "Please select an action type"
-      invalid_qualifier_filter: "Please make sure qualifier filter is valid"
-      invalid_filter_condition: "Please select a filter condition"
-
   remote_follow:
     acct: Enter your username@domain you want to follow from
     missing_resource: Could not find the required redirect URL for your account
@@ -720,6 +719,7 @@ en:
     revoke_success: Session successfully revoked
     title: Sessions
   settings:
+    all_qualifiers: Qualifier Store
     authorized_apps: Authorized apps
     back: Back to Mastodon
     delete: Account deletion
@@ -728,15 +728,14 @@ en:
     export: Data export
     followers: Authorized followers
     import: Import
+    installed_qualifiers: Installed qualifiers
     migrate: Account migration
     notifications: Notifications
     preferences: Preferences
     settings: Settings
     two_factor_authentication: Two-factor Auth
     your_apps: Your applications
-    all_qualifiers: Qualifier Store
     your_qualifiers: Your qualifiers
-    installed_qualifiers: Installed qualifiers
   statuses:
     attached:
       description: 'Attached: %{attached}'
