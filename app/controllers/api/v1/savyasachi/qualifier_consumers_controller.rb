@@ -4,7 +4,7 @@ class Api::V1::Savyasachi::QualifierConsumersController < Api::BaseController
   include Authorization
 
   before_action :authorize_if_got_token
-  before_action -> { doorkeeper_authorize! :write }, only:  [:create, :update, :destroy]
+  before_action -> { doorkeeper_authorize! :write }, only: [:create, :update, :destroy]
   before_action :require_user!
 
   respond_to :json
@@ -32,8 +32,8 @@ class Api::V1::Savyasachi::QualifierConsumersController < Api::BaseController
       Rails.logger.debug "Qualifier consumer saved #{@qualifier_consumer[:id]}"
       render json: @qualifier_consumer, serializer: REST::QualifierConsumerSerializer
     else
-      Rails.logger.debug "Qualifier consumer not saved"
-      render json: { error: 'Error while creating qualifier consumer' }, status: 400
+      Rails.logger.debug 'Qualifier consumer not saved'
+      render json: { error: 'Error while creating qualifier consumer' }, status: :bad_request
     end
   end
 
@@ -62,15 +62,15 @@ class Api::V1::Savyasachi::QualifierConsumersController < Api::BaseController
                           action_config_id: @action_config[:id])
         else
           @filter = QualifierFilter.new(filter_condition_id: filter_condition_params(qualifier_filter),
-                                       qualifier_consumer_id: @qualifier_consumer[:id],
-                                       action_config_id: @action_config[:id])
+                                        qualifier_consumer_id: @qualifier_consumer[:id],
+                                        action_config_id: @action_config[:id])
           @filter.save!
         end
       end
       @qualifier_consumer = QualifierConsumer.find(params[:id])
       render json: @qualifier_consumer, serializer: REST::QualifierConsumerSerializer
     else
-      render json: { error: 'Error while saving qualifier consumer' }, status: 400
+      render json: { error: 'Error while saving qualifier consumer' }, status: :bad_request
     end
   end
 
@@ -87,18 +87,18 @@ class Api::V1::Savyasachi::QualifierConsumersController < Api::BaseController
   end
 
   def qualifier_consumer_params
-    params.require(:qualifier_consumer).permit(
-      :enabled, :trial, :active, :qualifier_id, :account_id)
+    params.require(:qualifier_consumer).permit(:enabled, :trial, :active, :qualifier_id, :account_id)
   end
+
   def action_config_params(qualifier_filter)
-    # TODO check if folder belongs to user
-    qualifier_filter.require(:action_config).permit(
-      :id, :action_type_id, :folder_label_id)
+    # TODO: check if folder belongs to user
+    qualifier_filter.require(:action_config).permit(:id, :action_type_id, :folder_label_id)
   end
+
   def qualifier_filter_params(qualifier_filter)
-    qualifier_filter.permit(
-      :id, :filter_condition_id, :qualifier_consumer_id, :action_config_id)
+    qualifier_filter.permit(:id, :filter_condition_id, :qualifier_consumer_id, :action_config_id)
   end
+
   def filter_condition_params(qualifier_filter)
     qualifier_filter.require(:filter_condition_id)
   end

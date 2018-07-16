@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Settings::Savyasachi::AllQualifiersController < ApplicationController
-
   layout 'admin'
 
   before_action :authenticate_user!
@@ -14,8 +13,7 @@ class Settings::Savyasachi::AllQualifiersController < ApplicationController
     @qualifiers = Qualifier.all
   end
 
-  def show
-  end
+  def show; end
 
   private
 
@@ -29,9 +27,12 @@ class Settings::Savyasachi::AllQualifiersController < ApplicationController
   end
 
   def get_masked_endpoint(endpoint)
-    url = "https://#{endpoint}" if URI.parse(endpoint).scheme.nil?
-    uri = URI.parse(endpoint)
+    url = if URI.parse(endpoint).scheme.nil?
+            "https://#{endpoint}"
+          else
+            endpoint
+          end
+    uri = URI.parse(url)
     "https://#{uri.host.downcase}/***"
   end
-
 end

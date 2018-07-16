@@ -4,7 +4,7 @@ class Api::V1::Savyasachi::FolderLabelsController < Api::BaseController
   include Authorization
 
   before_action :authorize_if_got_token
-  before_action -> { doorkeeper_authorize! :write }, only:  [:create, :update, :destroy]
+  before_action -> { doorkeeper_authorize! :write }, only: [:create, :update, :destroy]
   before_action :require_user!
 
   respond_to :json
@@ -40,20 +40,20 @@ class Api::V1::Savyasachi::FolderLabelsController < Api::BaseController
 
   def update
     if !FolderLabel.exists?(id: params[:id], account_id: current_user[:account_id])
-      render json: { error: "Folder #{params[:id]} not found" }, status: 404
+      render json: { error: "Folder #{params[:id]} not found" }, status: :not_found
     else
       @folder_label = FolderLabel.find_by(id: params[:id], account_id: current_user[:account_id])
       if @folder_label.update!(folder_label_params)
         render json: @folder_label, serializer: REST::FolderLabelSerializer
       else
-        render json: { error: "Error while saving" }, status: 400
+        render json: { error: 'Error while saving' }, status: :bad_request
       end
     end
   end
 
   def destroy
     if !FolderLabel.exists?(id: params[:id], account_id: current_user[:account_id])
-      render json: { error: "Folder #{params[:id]} not found" }, status: 404
+      render json: { error: "Folder #{params[:id]} not found" }, status: :not_found
     else
       @folder_label = FolderLabel.find_by(id: params[:id], account_id: current_user[:account_id])
       @folder_label.destroy

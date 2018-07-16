@@ -6,7 +6,7 @@ class DistributeStatusService < BaseService
   # @return [Status]
   def call(status_id)
     status = Status.find(status_id)
-    
+
     process_mentions_service.call(status)
     process_hashtags_service.call(status)
 
@@ -28,5 +28,4 @@ class DistributeStatusService < BaseService
   def process_hashtags_service
     ProcessHashtagsService.new
   end
-
 end

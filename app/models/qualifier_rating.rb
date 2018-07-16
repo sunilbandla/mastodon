@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: qualifier_ratings
@@ -34,5 +36,4 @@ class QualifierRating < ApplicationRecord
     Qualifier.where(id: qualifier_id).update_all('ratings_count = COALESCE(ratings_count, 0) + 1')
     qualifier.update_ratings_avg
   end
-
 end

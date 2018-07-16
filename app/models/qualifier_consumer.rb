@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: qualifier_consumers
@@ -19,8 +21,18 @@ class QualifierConsumer < ApplicationRecord
   has_many :qualifier_filters
   accepts_nested_attributes_for :qualifier_filters, allow_destroy: true, reject_if: :new_record?
 
+  delegate :id,
+           :account_id,
+           :qualifier_id,
+           :enabled,
+           :trial,
+           :active,
+           :payment_date,
+           to: :class,
+           prefix: true,
+           allow_nil: false
+
   def qualifier
     Qualifier.find(qualifier_id)
   end
-
 end

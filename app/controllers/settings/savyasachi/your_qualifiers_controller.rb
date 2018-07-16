@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Settings::Savyasachi::YourQualifiersController < ApplicationController
-
   layout 'admin'
 
   before_action :authenticate_user!
@@ -12,18 +11,17 @@ class Settings::Savyasachi::YourQualifiersController < ApplicationController
     @qualifiers = Qualifier.where(account_id: @account.id)
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @qualifier = Qualifier.new
   end
 
   def create
-    # TODO add not null validations for all columns
+    # TODO: add not null validations for all columns
     @qualifier = Qualifier.new(qualifier_params)
     @qualifier[:account_id] = @account.id
-    # TODO remove price limit
+    # TODO: remove price limit
     @qualifier[:price] = 0
     if @qualifier.save!
       redirect_to settings_your_qualifier_path(@qualifier)
@@ -32,11 +30,10 @@ class Settings::Savyasachi::YourQualifiersController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
-    # TODO remove price limit
+    # TODO: remove price limit
     @qualifier[:price] = 0
     if @qualifier.update(qualifier_params)
       redirect_to settings_your_qualifier_path(@qualifier)
@@ -53,8 +50,8 @@ class Settings::Savyasachi::YourQualifiersController < ApplicationController
   private
 
   def qualifier_params
-    params.require(:qualifier).permit(
-      :name, :description, :qualifier_category_id, :endpoint, :price, :version, :account_id, :headers)
+    params.require(:qualifier).permit(:name, :description, :qualifier_category_id,
+                                      :endpoint, :price, :version, :account_id, :headers)
   end
 
   def set_account

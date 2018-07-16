@@ -7,8 +7,8 @@ class FolderFeed < Feed
   end
 
   protected
+
   def key
     FolderManager.instance.key(nil, @id)
   end
-
 end

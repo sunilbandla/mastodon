@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Settings::Savyasachi::QualifierRatingsController < ApplicationController
-
   layout 'admin'
 
   before_action :authenticate_user!
@@ -17,14 +16,17 @@ class Settings::Savyasachi::QualifierRatingsController < ApplicationController
     end
   end
 
-  def new
-  end
+  def new; end
 
   def create
     @qualifier_rating = QualifierRating.new(rating_params)
     @qualifier_rating[:account_id] = @account.id
-    @qualifier_rating[:value] = Integer(@qualifier_rating[:value]) rescue false
-    if !@qualifier_rating.valid?
+    @qualifier_rating[:value] = begin
+                                  Integer(@qualifier_rating[:value])
+                                rescue
+                                  false
+                                end
+    unless @qualifier_rating.valid?
       flash[:error] = I18n.t('qualifiers.all.review_invalid')
       redirect_to settings_all_qualifier_qualifier_ratings_path(@qualifier_rating[:qualifier_id])
       return

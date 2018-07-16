@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Settings::Savyasachi::InstalledQualifiersController < ApplicationController
-
   layout 'admin'
 
   before_action :authenticate_user!
@@ -12,8 +11,7 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
     @installed_qualifiers = QualifierConsumer.where(account_id: @account.id)
   end
 
-  def show
-  end
+  def show; end
 
   def create
     if QualifierConsumer.exists?(qualifier_id: params[:qualifier_id], account_id: @account.id)
@@ -44,7 +42,7 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
   def update
     installed_qualifier_params[:qualifier_filters_attributes].values.each do |filter|
       folder_label_id = action_config_params(filter)[:folder_label_id]
-      if !FolderLabel.exists?(id: folder_label_id, account_id: @account.id)
+      unless FolderLabel.exists?(id: folder_label_id, account_id: @account.id)
         raise ActiveRecord::RecordNotFound
       end
       if filter[:filter_condition_id].blank?
@@ -54,17 +52,17 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
       end
       if action_config_params(filter)[:id].blank?
         @action_config = ActionConfig.new(action_config_params(filter))
-        return if is_action_config_invalid(@action_config, @installed_qualifier[:id])
+        return if action_config_invalid?(@action_config, @installed_qualifier[:id])
         @action_config.save!
       else
         @action_config = ActionConfig.find(action_config_params(filter)[:id])
-        return if is_action_config_invalid(@action_config, @installed_qualifier[:id])
+        return if action_config_invalid?(@action_config, @installed_qualifier[:id])
         @action_config.update!(action_config_params(filter))
       end
       if filter[:id].blank?
         @filter = QualifierFilter.new(filter_condition_id: filter[:filter_condition_id],
-                                     qualifier_consumer_id: @installed_qualifier[:id],
-                                     action_config_id: @action_config[:id])
+                                      qualifier_consumer_id: @installed_qualifier[:id],
+                                      action_config_id: @action_config[:id])
         @filter.save!
       else
         @filter = QualifierFilter.find(filter[:id])
@@ -83,8 +81,8 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
   def destroy
     @installed_qualifier.qualifier_filters.each do |filter|
       config = ActionConfig.find(filter[:action_config_id])
-      filter.destroy! if !filter.nil?
-      config.destroy! if !config.nil?
+      filter&.destroy!
+      config&.destroy!
     end
     @installed_qualifier.destroy!
     redirect_to settings_installed_qualifiers_path
@@ -93,15 +91,18 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
   private
 
   def qualifier_consumer_params
-    params.require(:qualifier_consumer).permit(
-      :enabled, :trial, :active, :qualifier_id, :account_id)
+    params.require(:qualifier_consumer).permit(:enabled, :trial, :active,
+                                               :qualifier_id, :account_id)
   end
 
   def installed_qualifier_params
-    params.require(:qualifier_consumer).permit(
-      :id, :qualifier_id, :account_id, :enabled, :trial, :active, :payment_date,
-       qualifier_filters_attributes: [:qualifier_consumer_id, :filter_condition_id, :id,
-        action_config_attributes: [:action_type_id, :folder_label_id, :id]])
+    params.require(:qualifier_consumer)
+          .permit(:id, :qualifier_id, :account_id,
+                  :enabled, :trial, :active, :payment_date,
+                  qualifier_filters_attributes: [:qualifier_consumer_id,
+                                                 :filter_condition_id, :id,
+                                                 action_config_attributes: [:action_type_id,
+                                                                            :folder_label_id, :id]])
   end
 
   def set_account
@@ -109,7 +110,7 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
   end
 
   def set_installed_qualifier
-    @installed_qualifier = 
+    @installed_qualifier =
       if QualifierConsumer.exists?(id: params[:id], account_id: @account.id)
         QualifierConsumer.find_by(id: params[:id], account_id: @account.id)
       else
@@ -118,12 +119,11 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
   end
 
   def action_config_params(qualifier_filter)
-    qualifier_filter.require(:action_config_attributes).permit(
-      :id, :action_type_id, :folder_label_id)
+    qualifier_filter.require(:action_config_attributes).permit(:id, :action_type_id, :folder_label_id)
   end
 
-  def is_action_config_invalid(action_config, id)
-    if !action_config.valid?
+  def action_config_invalid?(action_config, id)
+    unless action_config.valid?
       flash[:error] = I18n.t('qualifiers.installed.invalid_action_config')
       redirect_to edit_settings_installed_qualifier_path(id)
       return true

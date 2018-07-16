@@ -2,5 +2,4 @@
 
 class REST::FilterConditionSerializer < ActiveModel::Serializer
   attributes :id, :name, :value
-
 end

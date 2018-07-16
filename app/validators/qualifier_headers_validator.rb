@@ -9,9 +9,6 @@ class QualifierHeadersValidator < ActiveModel::Validator
     qualifier.headers.strip!
     json = body_to_json(qualifier.headers)
 
-    qualifier.errors.add(:headers, I18n.t('qualifiers.yours.invalid_headers')) unless !json.nil?
+    qualifier.errors.add(:headers, I18n.t('qualifiers.yours.invalid_headers')) if json.nil?
   end
-
-  private
-
 end

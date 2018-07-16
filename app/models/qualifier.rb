@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: qualifiers
@@ -31,6 +33,18 @@ class Qualifier < ApplicationRecord
 
   default_scope { order('ratings_avg DESC NULLS LAST') }
 
+  delegate :id,
+           :name,
+           :description,
+           :endpoint,
+           :price,
+           :version,
+           :qualifier_category_id,
+           :account_id,
+           to: :class,
+           prefix: true,
+           allow_nil: false
+
   def category
     QualifierCategory.find(qualifier_category_id)
   end
@@ -45,15 +59,15 @@ class Qualifier < ApplicationRecord
 
   def update_ratings_avg
     @value = 0
-    self.ratings.each do |rating|
-      @value = @value + rating.value
+    ratings.each do |rating|
+      @value += rating.value
     end
-    @total = self.ratings.size
-    if @total > 0
-      avg = @value.to_f / @total.to_f
-    else
-      avg = 0
-    end
+    @total = ratings.size
+    avg = if @total.positive?
+            @value.to_f / @total.to_f
+          else
+            0
+          end
     update_attribute(:ratings_avg, avg.round(2))
   end
 end

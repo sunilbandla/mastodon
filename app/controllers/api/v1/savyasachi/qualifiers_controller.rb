@@ -4,7 +4,7 @@ class Api::V1::Savyasachi::QualifiersController < Api::BaseController
   include Authorization
 
   before_action :authorize_if_got_token
-  before_action -> { doorkeeper_authorize! :write }, only:  [:create, :update, :destroy]
+  before_action -> { doorkeeper_authorize! :write }, only: [:create, :update, :destroy]
   before_action :require_user!
 
   respond_to :json
@@ -33,8 +33,8 @@ class Api::V1::Savyasachi::QualifiersController < Api::BaseController
       Rails.logger.debug "Qualifier saved #{@qualifier[:id]}"
       render json: @qualifier, serializer: REST::QualifierSerializer
     else
-      Rails.logger.debug "Qualifier not saved"
-      render json: { error: 'Error while creating qualifier' }, status: 400
+      Rails.logger.debug 'Qualifier not saved'
+      render json: { error: 'Error while creating qualifier' }, status: :bad_request
     end
   end
 
@@ -51,7 +51,7 @@ class Api::V1::Savyasachi::QualifiersController < Api::BaseController
     if @qualifier.update!(qualifier_params)
       render json: @qualifier, serializer: REST::QualifierSerializer
     else
-      render json: { error: 'Error while saving qualifier' }, status: 400
+      render json: { error: 'Error while saving qualifier' }, status: :bad_request
     end
   end
 
@@ -68,7 +68,7 @@ class Api::V1::Savyasachi::QualifiersController < Api::BaseController
   end
 
   def qualifier_params
-    params.require(:qualifier).permit(
-      :name, :description, :qualifier_category_id, :endpoint, :price, :version, :account_id)
+    params.require(:qualifier).permit(:name, :description, :qualifier_category_id,
+                                      :endpoint, :price, :version, :account_id)
   end
 end

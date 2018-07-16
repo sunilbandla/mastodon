@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: folder_labels
@@ -11,4 +13,11 @@
 
 class FolderLabel < ApplicationRecord
   belongs_to :account
+
+  delegate :id,
+           :account_id,
+           :name,
+           to: :class,
+           prefix: true,
+           allow_nil: false
 end

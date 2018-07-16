@@ -5,13 +5,11 @@ class Savyasachi::CallStatusQualifierService < BaseService
 
   # Call qualifiers with a status
   # @param [String] status Message
-  # @param [Hash] options
-  # @return [Boolean] 
-  def call(status_id, **options)
+  # @return [Boolean]
+  def call(status_id)
     @status = Status.find(status_id)
     return if @status.nil?
     call_qualifiers_with_status(qualifiers, @status)
-    Rails.logger.debug "After all qualifiers are called"
     true
   end
 
@@ -50,7 +48,7 @@ class Savyasachi::CallStatusQualifierService < BaseService
   def call_qualifier_with_status(qualifier, status)
     @url = qualifier[:endpoint]
     @headers = qualifier[:headers]
-    if !@headers.nil?
+    unless @headers.nil?
       @headers.strip!
       @headers = body_to_json(@headers)
     end
@@ -81,15 +79,13 @@ class Savyasachi::CallStatusQualifierService < BaseService
     accept = 'application/json, ' + accept
 
     request = Request.new(:post, @url, :json => qualifier_endpoint_params).add_headers('Accept' => accept)
-    if !@headers.nil?
-      @headers.each do |header|
-        request.add_headers(header[0] => header[1])
-      end
+    @headers&.each do |header|
+      request.add_headers(header[0] => header[1])
     end
     request.perform(&block)
   end
 
-  def process_response(response, terminal = false)
+  def process_response(response, _terminal = false)
     return nil if response.code != 200
 
     if ['application/json'].include?(response.mime_type)
@@ -97,16 +93,14 @@ class Savyasachi::CallStatusQualifierService < BaseService
       json = body_to_json(body)
       Rails.logger.debug "Response #{json}"
       result = json['result']
-      if (result.nil? && !json['body'].nil?)
-        result = json['body']['result']
-      end
+      result = json['body']['result'] if result.nil? && !json['body'].nil?
       result
     end
   end
 
   def qualifier_endpoint_params
     {
-      'status': @status.text
+      'status': @status.text,
     }
   end
 end

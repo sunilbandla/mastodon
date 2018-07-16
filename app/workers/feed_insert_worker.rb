@@ -38,7 +38,6 @@ class FeedInsertWorker
   end
 
   def perform_push
-    Rails.logger.debug "FeedInsertWorker.perform_push"
     case @type
     when :home
       FeedManager.instance.push_to_home(@follower, @status)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: action_configs
@@ -13,6 +15,11 @@ class ActionConfig < ApplicationRecord
   belongs_to :action_type
   belongs_to :folder_label
 
+  delegate :id,
+           to: :class,
+           prefix: true,
+           allow_nil: false
+
   def type
     ActionType.find(action_type_id)
   end
@@ -20,5 +27,4 @@ class ActionConfig < ApplicationRecord
   def folder
     FolderLabel.find(folder_label_id)
   end
-
 end

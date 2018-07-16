@@ -6,13 +6,13 @@ class FolderManager
   include Singleton
 
   MAX_ITEMS = 400
-  KEY_PREFIX = "folder:"
-  MOVE_TO_FOLDER_ACTION_TYPE = "moveToFolder"
+  KEY_PREFIX = 'folder:'
+  MOVE_TO_FOLDER_ACTION_TYPE = 'moveToFolder'
   MOVE_TO_FOLDER_ACTION_TYPE_ID = 2
 
-  def key(account_id, folder_id, sub_type = nil)
-    # TODO remove account_id input
-    account_id = nil
+  def key(_account_id, folder_id, sub_type = nil)
+    # TODO: remove account_id input
+    _account_id = nil
     return "#{KEY_PREFIX}#{folder_id}" unless sub_type
 
     "#{KEY_PREFIX}#{folder_id}:#{sub_type}"
@@ -29,21 +29,21 @@ class FolderManager
         qualifier_filters = QualifierFilter.where(qualifier_consumer_id: qualifier[:id])
         qualifier_filters.each do |qualifier_filter|
           Rails.logger.debug "push_to_folder filter_action_id:#{qualifier_filter[:action_config_id]} #{qualifier_filter.filter_condition_id}"
-          if !(qualifier_filter[:action_config_id] &&
-             ActionConfig.exists?(qualifier_filter.action_config_id))
-             Rails.logger.debug "No action config"
+          unless qualifier_filter[:action_config_id] &&
+                 ActionConfig.exists?(qualifier_filter.action_config_id)
+            Rails.logger.debug 'No action config'
             next
           end
-          if !(qualifier_filter[:filter_condition_id] &&
-             FilterCondition.exists?(qualifier_filter[:filter_condition_id]))
-             Rails.logger.debug "No filter condition"
+          unless qualifier_filter[:filter_condition_id] &&
+                 FilterCondition.exists?(qualifier_filter[:filter_condition_id])
+            Rails.logger.debug 'No filter condition'
             next
           end
           filter_condition = FilterCondition.find(qualifier_filter[:filter_condition_id])
           action_config = ActionConfig.find(qualifier_filter[:action_config_id])
           Rails.logger.debug "push_to_folder condition_value:#{filter_condition[:value]} action_type:#{action_config[:action_type_id]}"
           if filter_condition[:value] != result
-            Rails.logger.debug "push_to_folder filter_value != qualifier result; next please"
+            Rails.logger.debug 'push_to_folder filter_value != qualifier result; next please'
             next
           end
           if action_config[:action_type_id] != MOVE_TO_FOLDER_ACTION_TYPE_ID
@@ -57,8 +57,7 @@ class FolderManager
           status_folder.save!
           Rails.logger.debug "calling add_to_folder acc:#{account.id} #{status.id} folder_id:#{action_config[:folder_label_id]}"
           add_to_folder(:folder, account.id, status, action_config[:folder_label_id])
-          Rails.logger.debug "calling trim folder_id:#{action_config[:folder_label_id]}"
-          trim(:folder, account.id, action_config[:folder_label_id])
+          trim(account.id, action_config[:folder_label_id])
           timeline_key = key(account.id, action_config[:folder_label_id])
           if push_update_required?(timeline_key)
             Rails.logger.debug "calling PushUpdateWorker timeline key: #{timeline_key}"
@@ -80,7 +79,7 @@ class FolderManager
     true
   end
 
-  def trim(type, account_id, folder_label_id)
+  def trim(account_id, folder_label_id)
     timeline_key = key(account_id, folder_label_id)
     reblog_key   = key(account_id, folder_label_id, 'reblogs')
 
@@ -106,11 +105,11 @@ class FolderManager
   end
 
   def populate_folders(account)
-    limit  = FeedManager::MAX_ITEMS / 2
+    limit = FeedManager::MAX_ITEMS / 2
 
     FolderLabel.find_by(account_id: account.id).each do |folder_label|
       statuses = Status.as_folder_timeline(account, folder_label.id)
-                      .paginate_by_max_id(limit)
+                       .paginate_by_max_id(limit)
 
       next if statuses.empty?
 
@@ -134,7 +133,7 @@ class FolderManager
   # added, and false if it was not added to the feed. Note that this is
   # an internal helper: callers must call trim or push updates if
   # either action is appropriate.
-  def add_to_folder(timeline_type, account_id, status, folder_label_id)
+  def add_to_folder(_timeline_type, account_id, status, folder_label_id)
     timeline_key = key(account_id, folder_label_id)
     reblog_key   = key(account_id, folder_label_id, 'reblogs')
 
@@ -181,7 +180,7 @@ class FolderManager
   # with reblogs, and returning true if a status was removed. As with
   # `add_to_folder`, this does not trigger push updates, so callers must
   # do so if appropriate.
-  def remove_from_folder(timeline_type, account_id, status, folder_label_id)
+  def remove_from_folder(_timeline_type, account_id, status, folder_label_id)
     timeline_key = key(account_id, folder_label_id)
 
     if status.reblog?
