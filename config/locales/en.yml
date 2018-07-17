@@ -665,6 +665,7 @@ en:
       destroy: Are you sure you want to delete - %{name}?
       headers: HTTP headers
       invalid_headers: Invalid JSON in HTTP headers
+      invalid_endpoint: Invalid URL
       new: New qualifier
       update: Edit qualifier
   remote_follow:

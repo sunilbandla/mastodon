@@ -18,11 +18,19 @@ class Settings::Savyasachi::YourQualifiersController < ApplicationController
   end
 
   def create
-    # TODO: add not null validations for all columns
     @qualifier = Qualifier.new(qualifier_params)
     @qualifier[:account_id] = @account.id
     # TODO: remove price limit
     @qualifier[:price] = 0
+    unless @qualifier.valid?
+      render 'new'
+      return
+    end
+    unless valid_url?(@qualifier[:endpoint])
+      @qualifier.errors.add(:endpoint, I18n.t('qualifiers.yours.invalid_endpoint'))
+      render 'new'
+      return
+    end
     if @qualifier.save!
       redirect_to settings_your_qualifier_path(@qualifier)
     else
@@ -33,8 +41,18 @@ class Settings::Savyasachi::YourQualifiersController < ApplicationController
   def edit; end
 
   def update
+    @qualifier.assign_attributes(qualifier_params)
     # TODO: remove price limit
     @qualifier[:price] = 0
+    unless @qualifier.valid?
+      render 'edit'
+      return
+    end
+    unless valid_url?(@qualifier[:endpoint])
+      @qualifier.errors.add(:endpoint, I18n.t('qualifiers.yours.invalid_endpoint'))
+      render 'edit'
+      return
+    end
     if @qualifier.update(qualifier_params)
       redirect_to settings_your_qualifier_path(@qualifier)
     else
@@ -60,5 +78,12 @@ class Settings::Savyasachi::YourQualifiersController < ApplicationController
 
   def set_qualifier
     @qualifier = Qualifier.find_by(id: params[:id], account_id: @account.id)
+  end
+
+  def valid_url?(url)
+    uri = URI.parse(url)
+    uri.is_a?(URI::HTTPS) && !uri.host.nil?
+  rescue URI::InvalidURIError
+    false
   end
 end

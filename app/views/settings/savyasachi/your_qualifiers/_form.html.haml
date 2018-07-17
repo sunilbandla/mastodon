@@ -13,8 +13,8 @@
 .fields-group
   = f.input :headers, as: :text, placeholder: t('qualifiers.yours.headers'), input_html: { 'aria-label' => t('qualifiers.yours.headers') }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.headers')
 
-.fields-group
-  = f.input :price, type: :number, placeholder: t('qualifiers.price'), required: true, input_html: { 'aria-label' => t('qualifiers.price'), 'max' => 0, 'disabled' => true, 'readonly' => true }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.price')
+-# .fields-group
+-#   = f.input :price, type: :number, placeholder: t('qualifiers.price'), required: true, input_html: { 'aria-label' => t('qualifiers.price'), 'max' => 0, 'disabled' => true, 'readonly' => true }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.price')
 
 .fields-group
   = f.association :qualifier_category, required: true, input_html: { 'aria-label' => t('qualifiers.category') }, wrapper: :with_label
