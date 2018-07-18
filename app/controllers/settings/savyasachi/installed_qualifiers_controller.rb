@@ -36,8 +36,6 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
     if @installed_qualifier.qualifier_filters.empty?
       @installed_qualifier.qualifier_filters.build
       @installed_qualifier.qualifier_filters[0].build_action_config
-      @installed_qualifier.qualifier_filters[0].filter_condition_id = 1;
-      @installed_qualifier.qualifier_filters[0].action_config.action_type_id = 1;
     end
   end
 

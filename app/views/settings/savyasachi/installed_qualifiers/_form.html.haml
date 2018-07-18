@@ -3,13 +3,26 @@
 
 = f.simple_fields_for :qualifier_filters do |qualifier_field|
   .fields-group
-    = qualifier_field.association :filter_condition, required: true, input_html: { 'aria-label' => t('qualifiers.installed.filter_condition') }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.filter_condition')
+    %div{ class: 'input with_block_label' }
+      = qualifier_field.label :filter_condition, t('qualifiers.installed.filter_condition'), class: 'select required' do
+        %abbr{ title: 'required' }= '*'
+        = t('qualifiers.installed.filter_condition')
+      %span{ class: 'hint' }= t('simple_form.hints.qualifiers.filter_condition')
+      = qualifier_field.collection_select :filter_condition_id, FilterCondition.all(), :id, :name, required: true, input_html: { 'aria-label' => t('qualifiers.installed.filter_condition') }
 
   = qualifier_field.fields_for :action_config do |action_config_field|
     .fields-group
-      = action_config_field.association :action_type, required: true, input_html: { 'aria-label' => t('qualifiers.installed.action_type') }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.action_type')
+      %div{ class: 'input with_block_label' }
+        = action_config_field.label :action_type, t('qualifiers.installed.action_type'), class: 'select required' do
+          %abbr{ title: 'required' }= '*'
+          = t('qualifiers.installed.action_type')
+        %span{ class: 'hint' }= t('simple_form.hints.qualifiers.action_type')
+        = action_config_field.collection_select :action_type_id, ActionType.all(), :id, :name, required: true, input_html: { 'aria-label' => t('qualifiers.installed.action_type') }
 
     .fields-group
-      = action_config_field.label :folder_label, t('qualifiers.installed.folder_name')
-      %div
-        = action_config_field.collection_select :folder_label_id, FolderLabel.where(account_id: @account.id), :id, :name, required: true, input_html: { 'aria-label' => t('qualifiers.installed.folder_name') }
+      %div{ class: 'input with_block_label' }
+        = action_config_field.label :folder_label, t('qualifiers.installed.folder_label'), class: 'select required' do
+          %abbr{ title: 'required' }= '*'
+          = t('qualifiers.installed.folder_label')
+        %span{ class: 'hint' }= t('simple_form.hints.qualifiers.folder_label')
+        = action_config_field.collection_select :folder_label_id, FolderLabel.where(account_id: @account.id), :id, :name, required: true, input_html: { 'aria-label' => t('qualifiers.installed.folder_label') }
