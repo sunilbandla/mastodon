@@ -13,7 +13,8 @@
 
 class ActionConfig < ApplicationRecord
   belongs_to :action_type
-  belongs_to :folder_label
+  belongs_to :folder_label, optional: true
+  accepts_nested_attributes_for :folder_label, allow_destroy: true, reject_if: :new_record?
 
   delegate :id,
            to: :class,

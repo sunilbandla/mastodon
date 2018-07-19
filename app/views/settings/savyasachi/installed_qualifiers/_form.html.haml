@@ -19,10 +19,22 @@
         %span{ class: 'hint' }= t('simple_form.hints.qualifiers.action_type')
         = action_config_field.collection_select :action_type_id, ActionType.all(), :id, :name, required: true, input_html: { 'aria-label' => t('qualifiers.installed.action_type') }
 
-    .fields-group
-      %div{ class: 'input with_block_label' }
-        = action_config_field.label :folder_label, t('qualifiers.installed.folder_label'), class: 'select required' do
-          %abbr{ title: 'required' }= '*'
-          = t('qualifiers.installed.folder_label')
-        %span{ class: 'hint' }= t('simple_form.hints.qualifiers.folder_label')
-        = action_config_field.collection_select :folder_label_id, FolderLabel.where(account_id: @account.id), :id, :name, required: true, input_html: { 'aria-label' => t('qualifiers.installed.folder_label') }
+    - if FolderLabel.where(account_id: @account.id).size > 0
+      .fields-group
+        %div{ class: 'input with_block_label' }
+          = action_config_field.label :folder_label, t('qualifiers.installed.folder_label'), class: 'select required' do
+            %abbr{ title: 'required' }= '*'
+            = t('qualifiers.installed.folder_label')
+          %span{ class: 'hint' }= t('simple_form.hints.qualifiers.folder_label')
+          = action_config_field.collection_select :folder_label_id, FolderLabel.where(account_id: @account.id), :id, :name, required: true, input_html: { 'aria-label' => t('qualifiers.installed.folder_label') }
+
+      %p.muted-hint
+        = link_to t('qualifiers.manage_folders'), '/web/folders', class: 'muted_hint'
+
+    - else
+      = action_config_field.fields_for :folder_label do |folder_label_field|
+        .fields-group
+          %div{ class: 'input with_block_label' }
+            = folder_label_field.label :name, t('qualifiers.installed.folder_name'), class: 'required'
+            %span{ class: 'hint' }= t('simple_form.hints.qualifiers.folder_label')
+            = folder_label_field.input :name, placeholder: t('qualifiers.installed.create_folder'), required: true, input_html: { 'aria-label' => t('qualifiers.installed.create_folder') }, label: t('qualifiers.installed.create_folder')

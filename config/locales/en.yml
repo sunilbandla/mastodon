@@ -641,6 +641,7 @@ en:
     enabled: Enabled
     endpoint: Endpoint
     'false': 'No'
+    manage_folders: Manage your folders here
     installed:
       action_type: Action type
       delete: Uninstall qualifier
@@ -648,6 +649,9 @@ en:
       edit: Edit qualifier configuration
       filter_condition: Filter condition
       folder_name: Folder
+      create_folder: New Folder
+      invalid_folder: Could not save folder, please try again.
+      empty_folder: Please provide a folder name.
       invalid_action_config: Please select an action type
       invalid_filter_condition: Please select a filter condition
       invalid_qualifier_filter: Please make sure qualifier filter is valid
