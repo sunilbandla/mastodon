@@ -32,8 +32,8 @@ en:
         description: Describe what the qualifier does and how it evaluates the content of a status.
         enabled: Enable/disable this qualifier
         endpoint: HTTPS URL that should be called with status. Path and query string will be masked when displayed in the store.
-        folder_label: Statuses/notifications that match the above filter will be moved to this folder.
         filter_condition: Select the qualifier outcome that should trigger an action. Qualifier description could have the possible outcomes of a qualifier for different types of status content.
+        folder_label: Statuses/notifications that match the above filter will be moved to this folder.
         headers: HTTP header(s) to be sent to qualifier endpoint. Use them to send authentication headers to your endpoint. Header(s) must be specified in a JSON object.
         price: Amount to be paid by users for installing this qualifier. Payments will be enabled in future.
         version: Qualifier version (preferably following semantic versioning)

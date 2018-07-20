@@ -642,25 +642,25 @@ en:
     endpoint: Endpoint
     'false': 'No'
     go_to_store: Go to Qualifier Store
-    manage_folders: Manage your folders here
     installed:
       action_type: Action type
+      create_folder: New Folder
       create_success: Qualifier installed successfully. Now, add a filter to use the qualifier.
       delete: Uninstall qualifier
       destroy: Uninstall qualifier - %{name}?
-      uninstall_success: Qualifier uninstalled successfully.
       edit: Edit qualifier configuration
+      empty_folder: Please provide a folder name.
       filter_condition: Filter condition
       folder_name: Folder
-      create_folder: New Folder
-      invalid_folder: Could not save folder, please try again.
-      empty_folder: Please provide a folder name.
       invalid_action_config: Please select an action type
       invalid_filter_condition: Please select a filter condition
+      invalid_folder: Could not save folder, please try again.
       invalid_qualifier_filter: Please make sure qualifier filter is valid
       no_qualifiers: You have not installed any qualifiers yet.
       setup_filter: Add filter
       setup_filter_help: Add a filter using the button below to filter out statuses based on this qualifier's outcome.
+      uninstall_success: Qualifier uninstalled successfully.
+    manage_folders: Manage your folders here
     name: Name
     payment_date: Payment date
     price: Price
@@ -670,11 +670,11 @@ en:
     yours:
       add: Add qualifier
       delete: Delete qualifier
-      destroy: Are you sure you want to delete - %{name}?
       delete_success: Qualifier removed successfully.
+      destroy: Are you sure you want to delete - %{name}?
       headers: HTTP headers
-      invalid_headers: Invalid JSON in HTTP headers
       invalid_endpoint: Invalid URL
+      invalid_headers: Invalid JSON in HTTP headers
       new: New qualifier
       no_qualifiers: You have not created any qualifiers.
       update: Edit qualifier

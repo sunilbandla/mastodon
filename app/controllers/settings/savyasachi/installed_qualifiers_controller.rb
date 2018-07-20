@@ -40,7 +40,7 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
       @installed_qualifier.qualifier_filters.build
       @installed_qualifier.qualifier_filters[0].build_action_config
     end
-    unless FolderLabel.where(account_id: @account.id).size > 0
+    unless FolderLabel.where(account_id: @account.id).size.positive?
       @installed_qualifier.qualifier_filters[0].action_config.build_folder_label
     end
   end
@@ -53,35 +53,31 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
         return
       end
       folder_label_id = action_config_params(filter)[:folder_label_id]
-      if is_folder_required(action_config_params(filter))
+      if folder_required?(action_config_params(filter))
         if !folder_label_id.nil? &&
-          !FolderLabel.exists?(id: folder_label_id, account_id: @account.id)
+           !FolderLabel.exists?(id: folder_label_id, account_id: @account.id)
           raise ActiveRecord::RecordNotFound
         end
         return if folder_label_id.nil? && !create_new_folder(filter)
       end
       if action_config_params(filter)[:id].blank?
         @action_config = ActionConfig.new(action_config_params(filter))
-        if is_folder_required(action_config_params(filter)) && @action_config[:folder_label_id].nil? &&
+        if folder_required?(action_config_params(filter)) && @action_config[:folder_label_id].nil? &&
            !@folder_label.nil? && !@folder_label[:id].nil?
           @action_config[:folder_label_id] = @folder_label[:id]
         end
-        unless is_folder_required(action_config_params(filter))
-          @action_config[:folder_label_id] = nil
-        end
+        reset_folder_label_id(filter, @action_config)
         return if action_config_invalid?(@action_config, @installed_qualifier[:id])
         @action_config.save!
       else
         @action_config = ActionConfig.find(action_config_params(filter)[:id])
         return if action_config_invalid?(@action_config, @installed_qualifier[:id])
         updated_action_config = action_config_params(filter)
-        if is_folder_required(action_config_params(filter)) && @action_config[:folder_label_id].nil? &&
+        if folder_required?(action_config_params(filter)) && @action_config[:folder_label_id].nil? &&
            !@folder_label.nil? && !@folder_label[:id].nil?
           updated_action_config[:folder_label_id] = @folder_label[:id]
         end
-        unless is_folder_required(action_config_params(filter))
-          updated_action_config[:folder_label_id] = nil
-        end
+        reset_folder_label_id(filter, updated_action_config)
         @action_config.update!(action_type_id: updated_action_config[:action_type_id],
                                folder_label_id: updated_action_config[:folder_label_id])
       end
@@ -119,9 +115,7 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
   private
 
   def create_new_folder(filter)
-    unless is_folder_required(action_config_params(filter))
-      return true
-    end
+    return true unless folder_required?(action_config_params(filter))
     new_folder_config = new_folder_params(filter)
     new_folder_label = new_folder_config[:name]
     if new_folder_label.nil? || new_folder_label.blank?
@@ -145,7 +139,7 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
         return false
       end
     end
-    return true
+    true
   end
 
   def qualifier_consumer_params
@@ -180,7 +174,7 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
 
   def action_config_params(qualifier_filter)
     qualifier_filter.require(:action_config_attributes).permit(:id, :action_type_id, :folder_label_id,
-      folder_label_attributes: [:name])
+                                                               folder_label_attributes: [:name])
   end
 
   def new_folder_params(qualifier_filter)
@@ -196,7 +190,13 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
     false
   end
 
-  def is_folder_required(action_config)
-    return action_config[:action_type_id] == MOVE_TO_FOLDER_ACTION_TYPE_ID.to_s
+  def folder_required?(action_config)
+    action_config[:action_type_id] == MOVE_TO_FOLDER_ACTION_TYPE_ID.to_s
+  end
+
+  def reset_folder_label_id(filter, action_config)
+    unless folder_required?(action_config_params(filter))
+      action_config[:folder_label_id] = nil
+    end
   end
 end
