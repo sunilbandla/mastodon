@@ -54,6 +54,7 @@ class Settings::Savyasachi::YourQualifiersController < ApplicationController
       return
     end
     if @qualifier.update(qualifier_params)
+      flash[:notice] = I18n.t('generic.changes_saved_msg')
       redirect_to settings_your_qualifier_path(@qualifier)
     else
       render 'edit'
@@ -62,6 +63,7 @@ class Settings::Savyasachi::YourQualifiersController < ApplicationController
 
   def destroy
     @qualifier.destroy
+    flash[:notice] = I18n.t('qualifiers.yours.delete_success')
     redirect_to settings_your_qualifiers_path
   end
 

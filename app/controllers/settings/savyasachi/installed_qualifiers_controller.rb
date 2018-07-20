@@ -28,6 +28,7 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
       active: true
     )
     if installed_qualifier.save
+      flash[:notice] = I18n.t('qualifiers.installed.create_success')
       redirect_to settings_installed_qualifier_path(installed_qualifier)
       return
     end
@@ -96,6 +97,7 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
       end
     end
     if @installed_qualifier.update!(qualifier_consumer_params)
+      flash[:notice] = I18n.t('generic.changes_saved_msg')
       redirect_to settings_installed_qualifier_path(@installed_qualifier)
     else
       flash[:error] = I18n.t('qualifiers.installed.invalid_qualifier_filter')
@@ -110,6 +112,7 @@ class Settings::Savyasachi::InstalledQualifiersController < ApplicationControlle
       config&.destroy!
     end
     @installed_qualifier.destroy!
+    flash[:notice] = I18n.t('qualifiers.installed.uninstall_success')
     redirect_to settings_installed_qualifiers_path
   end
 
