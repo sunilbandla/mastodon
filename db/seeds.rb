@@ -44,3 +44,42 @@ if Rails.env.development?
 # }])
 
 end
+
+unless QualifierCategory.any?
+  QualifierCategory.create([{
+    code: 'abuse',
+    name: 'Abuse'
+  }, {
+    code: 'movies',
+    name: 'Movies'
+  }, {
+    code: 'politics',
+    name: 'Politics'
+  }, {
+    code: 'sports',
+    name: 'Sports'
+  }, {
+    code: 'technology',
+    name: 'Technology'
+  }])
+end
+
+unless ActionType.any?
+  ActionType.create([{
+    code: 'skipInbox',
+    name: 'Skip Inbox'
+  }, {
+    code: 'moveToFolder',
+    name: 'Move to folder'
+  }])
+end
+
+unless FilterCondition.any?
+  FilterCondition.create([{
+    value: true,
+    name: 'True'
+  }, {
+    value: false,
+    name: 'False'
+  }])
+end
