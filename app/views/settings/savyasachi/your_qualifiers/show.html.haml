@@ -12,10 +12,10 @@
         %td= @qualifier.category.name
       %tr{ rowspan: 2}
         %th= t('qualifiers.description')
-        %td= @qualifier.description
+        %td.break-word= @qualifier.description
       %tr
         %th= t('qualifiers.endpoint')
-        %td= @qualifier.endpoint
+        %td.break-word= @qualifier.endpoint
       %tr
         %th= t('qualifiers.yours.headers')
         %td= @qualifier.headers

@@ -95,6 +95,11 @@
   margin-bottom: 20px;
 }
 
+.break-word {
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
 samp {
   font-family: 'mastodon-font-monospace', monospace;
 }

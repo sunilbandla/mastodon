@@ -13,7 +13,7 @@
       = link_to t('qualifiers.all.delete_review'), settings_all_qualifier_qualifier_rating_path(@qualifier_id, rating), method: :delete, data: { confirm: t('qualifiers.all.destroy_review') }, title: t('qualifiers.all.delete_review'), class: 'link hint', style: 'float: right; color: #2b90d9; margin-right: 30px;'
   %div
     %br
-    %span= rating.text
+    %span.break-word= rating.text
   %hr
 
 - if (!@qualifier_rating.id)

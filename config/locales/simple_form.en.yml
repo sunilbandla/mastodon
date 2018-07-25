@@ -28,7 +28,7 @@ en:
       imports:
         data: CSV file exported from another Mastodon instance
       qualifiers:
-        action_type: The action to be taken on a status if qualifier outcome matches the above condition. \n Skip Inbox - Status will not show up in your timelines, notifications or folders. \n Move to folder - Status/notification will be moved to the selected folder.
+        action_type: The action to be taken on a status if qualifier outcome matches the above condition. Skip Inbox - Status will not show up in your timelines, notifications or folders. Move to folder - Status/notification will be moved to the selected folder.
         description: Describe what the qualifier does and how it evaluates the content of a status.
         enabled: Enable/disable this qualifier
         endpoint: HTTPS URL that should be called with status. Path and query string will be masked when displayed in the store.
