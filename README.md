@@ -1,3 +1,52 @@
+# Feedseer
+
+Feedseer is an instance of Mastodon that aims to give users more control over their feeds. `Qualifiers` provide a way to analyze the content of a toot and take action based on that. Based on a qualifier's output, actions can be configured to either hide a toot or move it to a folder. Users are also free to create their own qualifiers to analyze different types of toots or provide more insights on a toot's content.
+
+## How to use Feedseer
+
+- Browse qualifiers in the [Qualifier Store](https://feedseer.com/settings/all_qualifiers)
+- Click on a qualifier `name` to view its details
+- Read the qualifier `description` to understand the type of analysis performed on a toot
+- Qualifier `endpoint` is where a qualifier is hosted. Even if a domain looks suspicious, they cannot access your profile data.
+- Click on the `Install` button to add a qualifier to your profile
+- Click on the `Add filter` button to set up actions based on a qualifier's result
+- A qualifier returns `true` or `false` based on whether or not a toot contained what the qualifier was looking for. Select a filter condition based on this.
+- Different `actions` can be taken on toots that satisfy the above filter condition.
+  - Set the action type to `Skip Inbox` if you do not want to see a toot in your feeds
+  - Select `Move to folder` and add a folder if you want to hide a toot from your feeds and move it to a folder
+- `Save` the qualifier
+- You can update your qualifier's configuration [here](https://feedseer.com/settings/installed_qualifiers)
+
+Please leave a review for a qualifier you use so that others can benefit from it.
+
+## How to create qualifiers
+
+- Navigate to this [page](https://feedseer.com/settings/your_qualifiers)
+- Click on `Add qualifier`
+- Provide useful `name` and `description` for your qualifier
+   - `Description` should have the kind of content a qualifier analyzes and the corresponding response (`true` or `false`) returned by it
+- `Endpoint` is the URL that will be called with a toot
+  - The request body will have the `content-type: application/json` header.
+  - Request format:
+```
+{
+  "text": "Hello seers!"
+}
+```
+  - Response format (`content-type: application/json`) should be:
+
+```
+{
+  "result": true (or false)
+}
+```
+- `HTTP Headers` are the extra headers that will be sent to your endpoint. This will be useful for setting authentication headers.
+- `Version` can be used to indicate to users about an updated qualifier. Reviews that mention a qualifier version will be more useful.
+- Select a `category` from the provided list
+- `Save` your qualifier
+
+
+
 ![Mastodon](https://i.imgur.com/NhZc40l.png)
 ========
 
