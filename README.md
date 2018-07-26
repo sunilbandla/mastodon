@@ -1,51 +1,59 @@
 # Feedseer
 
-Feedseer is an instance of Mastodon that aims to give users more control over their feeds. `Qualifiers` provide a way to analyze the content of a toot and take action based on that. Based on a qualifier's output, actions can be configured to either hide a toot or move it to a folder. Users are also free to create their own qualifiers to analyze different types of toots or provide more insights on a toot's content.
+Feedseer is an instance of Mastodon that aims to give users more control over their feeds. `Qualifiers` provide a way to analyze the content of a toot and take action based on that. Based on a qualifier's output, `actions` can be configured to either hide a toot or move it to a folder. Users can create their own qualifiers to analyze different types of toots or provide interesting insights on a toot's content.
+
+> **Feedseer is in Private Alpha. Things will break sometimes and your data may be lost.**
 
 ## How to use Feedseer
 
-- Browse qualifiers in the [Qualifier Store](https://feedseer.com/settings/all_qualifiers)
-- Click on a qualifier `name` to view its details
+- Navigate to [Qualifier Store](https://feedseer.com/settings/all_qualifiers)
+- Click on a qualifier `name` to see a qualifier's details
 - Read the qualifier `description` to understand the type of analysis performed on a toot
-- Qualifier `endpoint` is where a qualifier is hosted. Even if a domain looks suspicious, they cannot access your profile data.
-- Click on the `Install` button to add a qualifier to your profile
-- Click on the `Add filter` button to set up actions based on a qualifier's result
-- A qualifier returns `true` or `false` based on whether or not a toot contained what the qualifier was looking for. Select a filter condition based on this.
-- Different `actions` can be taken on toots that satisfy the above filter condition.
-  - Set the action type to `Skip Inbox` if you do not want to see a toot in your feeds
-  - Select `Move to folder` and add a folder if you want to hide a toot from your feeds and move it to a folder
+- Qualifier `endpoint` is where a qualifier is hosted. Even if an endpoint's domain looks suspicious, it cannot access your profile information. See the `How to create qualifiers` section below to understand how qualifiers access your toots.
+- Add a qualifier to your profile by clicking the `Install` button
+- Click the `Add filter` button to set up an action based on a qualifier's result
+  - A qualifier will return `true` or `false` based on whether or not a toot is related to what the qualifier was looking for. Select a filter condition based on this.
+  - Now, select the action to be taken on a toot that qualifies:
+    - Set the action to `Skip Inbox` to remove it from your timelines
+    - To move the toot to a folder, select `Move to folder` and provide a folder name
 - `Save` the qualifier
 - You can update your qualifier's configuration [here](https://feedseer.com/settings/installed_qualifiers)
 
-Please leave a review for a qualifier you use so that others can benefit from it.
+> Please write a review for the qualifiers you use so that others can benefit from it. Also, mention the version of qualifier you are reviewing.
 
 ## How to create qualifiers
 
 - Navigate to this [page](https://feedseer.com/settings/your_qualifiers)
-- Click on `Add qualifier`
-- Provide useful `name` and `description` for your qualifier
-   - `Description` should have the kind of content a qualifier analyzes and the corresponding response (`true` or `false`) returned by it
-- `Endpoint` is the URL that will be called with a toot
-  - The request body will have the `content-type: application/json` header.
-  - Request format:
+- Click on `Add qualifier` button
+- Provide a good `name` and `description` for your qualifier
+   - `Description` should include the kind of content a qualifier analyzes and the corresponding response (`true` or `false`) it returns
+- `Endpoint` is the URL that will be called with a toot's content
+  - Request body will have a `content-type: application/json` header
+  - Request body format:
 ```
 {
   "text": "Hello seers!"
 }
 ```
-  - Response format (`content-type: application/json`) should be:
+  - Response body format (`content-type: application/json`) should be:
 
 ```
 {
-  "result": true (or false)
+  "result": true or false (Boolean)
 }
 ```
-- `HTTP Headers` are the extra headers that will be sent to your endpoint. This will be useful for setting authentication headers.
-- `Version` can be used to indicate to users about an updated qualifier. Reviews that mention a qualifier version will be more useful.
-- Select a `category` from the provided list
+- `HTTP Headers` will be set on the request sent to your endpoint. It can be used to set authentication headers.
+- `Version` can be used to indicate improvements to your qualifier. This helps users review a specific version of a qualifier.
+- Select a `category` from the provided list of categories
 - `Save` your qualifier
 
+> A qualifier will be called only once per toot.
 
+## Roadmap
+
+- Provide more qualifiers out-of-the-box
+- Media toots with qualifiers
+- Granular control over enabling qualifiers
 
 ![Mastodon](https://i.imgur.com/NhZc40l.png)
 ========
