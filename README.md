@@ -2,7 +2,7 @@
 
 Feedseer is an instance of Mastodon that aims to give users more control over their feeds. `Qualifiers` provide a way to analyze the content of a toot and take action based on that. Based on a qualifier's output, `actions` can be configured to either hide a toot or move it to a folder. Users can create their own qualifiers to analyze different types of toots or provide interesting insights on a toot's content.
 
-> **Feedseer is in Private Alpha. Things will break sometimes and your data may be lost.**
+> **Feedseer is in Private Alpha. Things will break sometimes and your data may be lost. Our sincere apologies in advance.**
 
 ## How to use Feedseer
 

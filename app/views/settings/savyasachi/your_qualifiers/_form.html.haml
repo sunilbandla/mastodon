@@ -2,7 +2,7 @@
   = f.input :name, placeholder: t('qualifiers.name'), autofocus: true, required: true, input_html: { 'aria-label' => t('qualifiers.name') }, wrapper: :with_block_label
 
 .fields-group
-  = f.input :description, as: :text, placeholder: t('qualifiers.description'), required: true, input_html: { 'aria-label' => t('qualifiers.description') }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.description')
+  = f.input :description, as: :text, placeholder: t('qualifiers.description'), required: true, input_html: { 'aria-label' => t('qualifiers.description'), rows: 8 }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.description')
 
 .fields-group
   = f.input :version, placeholder: t('qualifiers.version'), required: true, input_html: { 'aria-label' => t('qualifiers.version') }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.version')
@@ -11,7 +11,7 @@
   = f.input :endpoint, placeholder: t('qualifiers.endpoint'), required: true, input_html: { 'aria-label' => t('qualifiers.endpoint') }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.endpoint')
 
 .fields-group
-  = f.input :headers, as: :text, placeholder: t('qualifiers.yours.headers'), input_html: { 'aria-label' => t('qualifiers.yours.headers') }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.headers')
+  = f.input :headers, as: :text, placeholder: t('qualifiers.yours.headers'), input_html: { 'aria-label' => t('qualifiers.yours.headers'), rows: 8 }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.headers')
 
 -# .fields-group
 -#   = f.input :price, type: :number, placeholder: t('qualifiers.price'), required: true, input_html: { 'aria-label' => t('qualifiers.price'), 'max' => 0, 'disabled' => true, 'readonly' => true }, wrapper: :with_block_label, hint: t('simple_form.hints.qualifiers.price')
