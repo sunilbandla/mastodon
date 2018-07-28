@@ -627,13 +627,13 @@ en:
       no_reviews: There are no reviews yet.
       owner: Owner
       rating_avg_out_of: "%{avg} out of 100"
-      rating_gave: rated it %{value} / 100
+      rating_gave: rated it %{value} out of 100
       rating_value: Rating
       ratings_avg: Average rating
       ratings_count: Number of reviews
       review_invalid: Review could not be saved. Please submit a valid review.
       reviews: Reviews
-      save_review_failed: Review could not be saved. Please try again later.
+      save_review_failed: Invalid review. Please try again later.
       update_review: Update review
     back: Go back
     category: Category
@@ -644,18 +644,18 @@ en:
     go_to_store: Go to Qualifier Store
     installed:
       action_type: Action type
-      create_folder: New Folder
+      create_folder: New folder
       create_success: Qualifier installed successfully. Now, add a filter to use the qualifier.
       delete: Uninstall qualifier
-      destroy: Uninstall qualifier - %{name}?
+      destroy: Are you sure you want to uninstall qualifier - %{name}?
       edit: Edit qualifier configuration
       empty_folder: Please provide a folder name.
       filter_condition: Filter condition
       folder_name: Folder
       invalid_action_config: Please select an action type
       invalid_filter_condition: Please select a filter condition
-      invalid_folder: Could not save folder, please try again.
-      invalid_qualifier_filter: Please make sure qualifier filter is valid
+      invalid_folder: Folder could not be saved. Please try again.
+      invalid_qualifier_filter: Please make sure the qualifier filter is valid
       no_qualifiers: You have not installed any qualifiers yet.
       setup_filter: Add filter
       setup_filter_help: Add a filter using the button below to filter out statuses based on this qualifier's outcome.
@@ -670,7 +670,7 @@ en:
     yours:
       add: Add qualifier
       delete: Delete qualifier
-      delete_success: Qualifier removed successfully.
+      delete_success: Qualifier deleted successfully.
       destroy: Are you sure you want to delete - %{name}?
       headers: HTTP headers
       invalid_endpoint: Invalid URL
