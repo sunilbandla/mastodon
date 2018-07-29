@@ -12,19 +12,24 @@
         %td= @qualifier.category.name
       %tr{ rowspan: 2}
         %th= t('qualifiers.description')
-        %td.break-word= @qualifier.description
+        %td.break-word
+          %pre= @qualifier.description
       %tr
         %th= t('qualifiers.endpoint')
         %td.break-word= @qualifier.endpoint
       %tr
         %th= t('qualifiers.yours.headers')
-        %td= @qualifier.headers
+        %td
+          %pre= @qualifier.headers
       %tr
         %th= t('qualifiers.version')
         %td= @qualifier.version
       %tr
         %th= t('qualifiers.price')
-        %td= @qualifier.price
+        - if (@qualifier.price.nil? || @qualifier.price == 0)
+          %td= t('qualifiers.all.free')
+        - else
+          %td= @qualifier.price
 
 %hr/
 

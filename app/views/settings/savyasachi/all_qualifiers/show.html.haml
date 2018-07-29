@@ -12,7 +12,8 @@
         %td= @qualifier.category.name
       %tr{ rowspan: 2}
         %th= t('qualifiers.description')
-        %td.break-word= @qualifier.description
+        %td.break-word
+          %pre= @qualifier.description
       %tr
         %th= t('qualifiers.all.owner')
         %td= link_to @qualifier.account.username, TagManager.instance.url_for(@qualifier.account)
