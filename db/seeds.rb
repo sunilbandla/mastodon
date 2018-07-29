@@ -50,17 +50,32 @@ unless QualifierCategory.any?
     code: 'abuse',
     name: 'Abuse'
   }, {
+    code: 'business',
+    name: 'Business'
+  }, {
+    code: 'food',
+    name: 'Food'
+  }, {
     code: 'movies',
     name: 'Movies'
   }, {
     code: 'politics',
     name: 'Politics'
   }, {
+    code: 'religion',
+    name: 'Religion'
+  }, {
+    code: 'science',
+    name: 'Science'
+  }, {
     code: 'sports',
     name: 'Sports'
   }, {
     code: 'technology',
     name: 'Technology'
+  }, {
+    code: 'travel',
+    name: 'Travel'
   }])
 end
 
