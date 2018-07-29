@@ -646,19 +646,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Toots",
-        "id": "timeline.posts"
-      },
-      {
-        "defaultMessage": "Media",
-        "id": "timeline.media"
-      }
-    ],
-    "path": "app/javascript/mastodon/features/community_timeline/components/section_headline.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Local timeline",
         "id": "column.community"
       },
@@ -1573,32 +1560,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "New qualifier name",
-        "id": "qualifiers.new.name_placeholder"
-      },
-      {
-        "defaultMessage": "Add qualifier",
-        "id": "qualifiers.new.create"
-      }
-    ],
-    "path": "app/javascript/mastodon/features/qualifiers/components/new_qualifier_form.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Qualifiers",
-        "id": "column.qualifiers"
-      },
-      {
-        "defaultMessage": "Your qualifiers",
-        "id": "qualifiers.subheading"
-      }
-    ],
-    "path": "app/javascript/mastodon/features/qualifiers/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "A look inside...",
         "id": "standalone.public_title"
       }
@@ -2072,18 +2033,5 @@
       }
     ],
     "path": "app/javascript/mastodon/features/video/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Oops!",
-        "id": "alert.unexpected.title"
-      },
-      {
-        "defaultMessage": "An unexpected error occurred.",
-        "id": "alert.unexpected.message"
-      }
-    ],
-    "path": "app/javascript/mastodon/middleware/errors.json"
   }
 ]
