@@ -56,8 +56,8 @@ unless QualifierCategory.any?
     code: 'food',
     name: 'Food'
   }, {
-    code: 'movies',
-    name: 'Movies'
+    code: 'entertainment',
+    name: 'Entertainment'
   }, {
     code: 'politics',
     name: 'Politics'
