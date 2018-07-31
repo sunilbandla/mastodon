@@ -19,31 +19,23 @@ class FolderManager
   end
 
   def push_to_folder(account, status)
-    Rails.logger.debug "push_to_folder #{account} #{status.id}"
     QualifierConsumer.where(account_id: account.id).each do |qualifier|
-      Rails.logger.debug "push_to_folder  qualifier_consumer_id: #{qualifier.qualifier_id}"
       if StatusQualifierResult.where(status_id: status.id, qualifier_id: qualifier[:qualifier_id]).any?
         status_qualifier_result = StatusQualifierResult.find_by(status_id: status.id, qualifier_id: qualifier[:qualifier_id])
-        Rails.logger.debug "push_to_folder result #{status_qualifier_result.result}"
         result = status_qualifier_result.result
         qualifier_filters = QualifierFilter.where(qualifier_consumer_id: qualifier[:id])
         qualifier_filters.each do |qualifier_filter|
-          Rails.logger.debug "push_to_folder filter_action_id:#{qualifier_filter[:action_config_id]} #{qualifier_filter.filter_condition_id}"
           unless qualifier_filter[:action_config_id] &&
                  ActionConfig.exists?(qualifier_filter.action_config_id)
-            Rails.logger.debug 'No action config'
             next
           end
           unless qualifier_filter[:filter_condition_id] &&
                  FilterCondition.exists?(qualifier_filter[:filter_condition_id])
-            Rails.logger.debug 'No filter condition'
             next
           end
           filter_condition = FilterCondition.find(qualifier_filter[:filter_condition_id])
           action_config = ActionConfig.find(qualifier_filter[:action_config_id])
-          Rails.logger.debug "push_to_folder condition_value:#{filter_condition[:value]} action_type:#{action_config[:action_type_id]}"
           if filter_condition[:value] != result
-            Rails.logger.debug 'push_to_folder filter_value != qualifier result; next please'
             next
           end
           if action_config[:action_type_id] != MOVE_TO_FOLDER_ACTION_TYPE_ID
@@ -55,12 +47,10 @@ class FolderManager
           Rails.logger.debug "push_to_folder save  #{status.id} #{action_config[:folder_label_id]}"
           status_folder = StatusFolder.new(status_id: status.id, folder_label_id: action_config[:folder_label_id])
           status_folder.save!
-          Rails.logger.debug "calling add_to_folder acc:#{account.id} #{status.id} folder_id:#{action_config[:folder_label_id]}"
           add_to_folder(:folder, account.id, status, action_config[:folder_label_id])
           trim(account.id, action_config[:folder_label_id])
           timeline_key = key(account.id, action_config[:folder_label_id])
           if push_update_required?(timeline_key)
-            Rails.logger.debug "calling PushUpdateWorker timeline key: #{timeline_key}"
             PushUpdateWorker.perform_async(account.id, status.id, timeline_key)
           end
         end
@@ -72,7 +62,6 @@ class FolderManager
   def unpush_from_folders(account, status)
     StatusFolder.joins(:folder_label).where(folder_labels: { account_id: account.id }).each do |status_folder|
       timeline_key = key(account.id, status_folder.folder_label_id)
-      Rails.logger.debug "remove_from_folder #{account.id} #{status.id} #{status_folder.folder_label_id}"
       return false unless remove_from_folder(:folder, account.id, status, status_folder.folder_label_id)
       Redis.current.publish(timeline_key, Oj.dump(event: :delete, payload: status.id.to_s))
     end

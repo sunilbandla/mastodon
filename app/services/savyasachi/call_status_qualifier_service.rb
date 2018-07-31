@@ -24,20 +24,16 @@ class Savyasachi::CallStatusQualifierService < BaseService
       update_qualifier_result_for_status(qualifier, status, false)
     end
     qualifiers.each do |qualifier|
-      Rails.logger.debug "before calling qualifier endpoint: #{status.id}"
       result = call_qualifier_with_status(qualifier, status)
       update_qualifier_result_for_status(qualifier, status, result)
-      Rails.logger.debug "after updating result: #{status.id} #{result}"
     end
   end
 
   def update_qualifier_result_for_status(qualifier, status, result = false)
     if StatusQualifierResult.where(status_id: status.id, qualifier_id: qualifier[:id]).any?
-      Rails.logger.debug "Updating result status #{status.id} #{result}"
       @status_qualifier_result = StatusQualifierResult.find_by(status_id: status.id, qualifier_id: qualifier[:id])
       @status_qualifier_result.update!(result: result)
     else
-      Rails.logger.debug "Creating result status #{status}"
       @status_qualifier_result = StatusQualifierResult.new(status_id: status.id,
                                                            qualifier_id: qualifier[:id],
                                                            result: result)
@@ -52,18 +48,14 @@ class Savyasachi::CallStatusQualifierService < BaseService
       @headers.strip!
       @headers = body_to_json(@headers)
     end
-    Rails.logger.debug "call url: #{status.id} #{@url} #{@headers}"
     return if @url.blank?
     result = process(@url, status, @headers)
     result
   rescue OpenSSL::SSL::SSLError => e
-    Rails.logger.debug "SSL error: #{e}"
     nil
   rescue HTTP::ConnectionError => e
-    Rails.logger.debug "HTTP ConnectionError: #{e}"
     nil
   rescue StandardError => e
-    Rails.logger.debug "Error: #{e}"
     nil
   end
 
@@ -91,7 +83,7 @@ class Savyasachi::CallStatusQualifierService < BaseService
     if ['application/json'].include?(response.mime_type)
       body = response.body_with_limit
       json = body_to_json(body)
-      Rails.logger.debug "Response #{json}"
+      Rails.logger.debug "Qualifier response #{json}"
       result = json['result']
       result = json['body']['result'] if result.nil? && !json['body'].nil?
       result
