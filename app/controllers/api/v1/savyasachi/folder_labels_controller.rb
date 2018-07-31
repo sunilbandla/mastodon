@@ -40,7 +40,7 @@ class Api::V1::Savyasachi::FolderLabelsController < Api::BaseController
 
   def update
     if !FolderLabel.exists?(id: params[:id], account_id: current_user[:account_id])
-      render json: { error: "Folder #{params[:id]} not found" }, status: :not_found
+      render json: { error: "Folder not found" }, status: :not_found
     else
       @folder_label = FolderLabel.find_by(id: params[:id], account_id: current_user[:account_id])
       if @folder_label.update!(folder_label_params)
@@ -52,8 +52,12 @@ class Api::V1::Savyasachi::FolderLabelsController < Api::BaseController
   end
 
   def destroy
+    if StatusFolder.exists?(folder_label_id: params[:id])
+      render json: { error: "Folder cannot be removed, since it contains statuses." }, status: :bad_request
+      return
+    end
     if !FolderLabel.exists?(id: params[:id], account_id: current_user[:account_id])
-      render json: { error: "Folder #{params[:id]} not found" }, status: :not_found
+      render json: { error: "Folder not found" }, status: :not_found
     else
       @folder_label = FolderLabel.find_by(id: params[:id], account_id: current_user[:account_id])
       @folder_label.destroy

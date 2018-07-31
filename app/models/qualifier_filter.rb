@@ -15,7 +15,7 @@
 class QualifierFilter < ApplicationRecord
   belongs_to :qualifier_consumer
   belongs_to :filter_condition
-  belongs_to :action_config
+  belongs_to :action_config, dependent: :destroy
   accepts_nested_attributes_for :action_config, allow_destroy: true, reject_if: :new_record?
 
   delegate :id,

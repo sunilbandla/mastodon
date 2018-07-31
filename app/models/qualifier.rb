@@ -22,6 +22,9 @@
 class Qualifier < ApplicationRecord
   belongs_to :qualifier_category
   belongs_to :account
+  has_many :qualifier_consumers,  dependent: :destroy
+  has_many :qualifier_ratings,  dependent: :destroy
+  has_many :status_qualifier_results,  dependent: :destroy
 
   validates :name, presence: true, length: { minimum: 3 }
   validates :description, presence: true, length: { minimum: 10 }
