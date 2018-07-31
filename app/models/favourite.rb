@@ -33,9 +33,9 @@ class Favourite < ApplicationRecord
 
   def increment_cache_counters
     if association(:status).loaded?
-      status.update_attribute(:favourites_count, status.favourites_count + 1)
+      status.increment_count!(:favourites_count)
     else
-      Status.where(id: status_id).update_all('favourites_count = COALESCE(favourites_count, 0) + 1')
+      StatusStat.where(status_id: status_id).update_all('favourites_count = COALESCE(favourites_count, 0) + 1')
     end
   end
 
@@ -43,9 +43,9 @@ class Favourite < ApplicationRecord
     return if association(:status).loaded? && (status.marked_for_destruction? || status.marked_for_mass_destruction?)
 
     if association(:status).loaded?
-      status.update_attribute(:favourites_count, [status.favourites_count - 1, 0].max)
+      status.decrement_count!(:favourites_count)
     else
-      Status.where(id: status_id).update_all('favourites_count = GREATEST(COALESCE(favourites_count, 0) - 1, 0)')
+      StatusStat.where(status_id: status_id).update_all('favourites_count = GREATEST(COALESCE(favourites_count, 0) - 1, 0)')
     end
   end
 end

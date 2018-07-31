@@ -26,6 +26,8 @@
 #
 
 class Status < ApplicationRecord
+  self.cache_versioning = false
+
   include Paginable
   include Streamable
   include Cacheable
@@ -59,6 +61,7 @@ class Status < ApplicationRecord
 
   has_one :notification, as: :activity, dependent: :destroy
   has_one :stream_entry, as: :activity, inverse_of: :status
+  has_one :status_stat, inverse_of: :status
 
   validates :uri, uniqueness: true, presence: true, unless: :local?
   validates :text, presence: true, unless: -> { with_media? || reblog? }
@@ -66,12 +69,13 @@ class Status < ApplicationRecord
   validates_with DisallowedHashtagsValidator
   validates :reblog, uniqueness: { scope: :account }, if: :reblog?
 
-  default_scope { recent }
+  default_scope { recent.with_stats }
 
   scope :recent, -> { reorder(id: :desc) }
   scope :remote, -> { where(local: false).or(where.not(uri: nil)) }
   scope :local,  -> { where(local: true).or(where(uri: nil)) }
 
+  scope :with_stats, -> { select('statuses.*, status_stats.replies_count, status_stats.favourites_count, status_stats.reblogs_count, greatest(statuses.updated_at, status_stats.updated_at) AS updated_at').left_outer_joins(:status_stat) }
   scope :without_replies, -> { where('statuses.reply = FALSE OR statuses.in_reply_to_account_id = statuses.account_id') }
   scope :without_reblogs, -> { where('statuses.reblog_of_id IS NULL') }
   scope :with_public_visibility, -> { where(visibility: :public) }
@@ -86,6 +90,10 @@ class Status < ApplicationRecord
   delegate :domain, to: :account, prefix: true
 
   REAL_TIME_WINDOW = 6.hours
+
+  def cache_ids
+    left_outer_joins(:status_stat).select('statuses.id, greatest(statuses.updated_at, status_stats.updated_at) AS updated_at')
+  end
 
   def searchable_by(preloaded = nil)
     ids = [account_id]
@@ -173,6 +181,28 @@ class Status < ApplicationRecord
 
   def marked_for_mass_destruction?
     @marked_for_mass_destruction
+  end
+
+  def replies_count
+    self[:replies_count] || 0
+  end
+
+  def reblogs_count
+    self[:reblogs_count] || 0
+  end
+
+  def favourites_count
+    self[:favourites_count] || 0
+  end
+
+  def increment_count!(key)
+    self[key] = public_send(key) + 1
+    update_status_stat!(key => self[key])
+  end
+
+  def decrement_count!(key)
+    self[key] = [public_send(key) - 1, 0].max
+    update_status_stat!(key => self[key])
   end
 
   after_create  :increment_counter_caches
@@ -352,6 +382,11 @@ class Status < ApplicationRecord
 
   private
 
+  def update_status_stat!(attrs)
+    record = status_stat || build_status_stat
+    record.update(attrs)
+  end
+
   def store_uri
     update_attribute(:uri, ActivityPub::TagManager.instance.uri_for(self)) if uri.nil?
   end
@@ -408,12 +443,20 @@ class Status < ApplicationRecord
       Account.where(id: account_id).update_all('statuses_count = COALESCE(statuses_count, 0) + 1')
     end
 
+    if in_reply_to_id.present?
+      if association(:thread).loaded?
+        thread.increment_count!(:replies_count)
+      else
+        StatusStat.where(status_id: in_reply_to_id).update_all('replies_count = COALESCE(replies_count, 0) + 1')
+      end
+    end
+
     return unless reblog?
 
     if association(:reblog).loaded?
-      reblog.update_attribute(:reblogs_count, reblog.reblogs_count + 1)
+      reblog.increment_count!(:reblogs_count)
     else
-      Status.where(id: reblog_of_id).update_all('reblogs_count = COALESCE(reblogs_count, 0) + 1')
+      StatusStat.where(status_id: reblog_of_id).update_all('reblogs_count = COALESCE(reblogs_count, 0) + 1')
     end
   end
 
@@ -426,12 +469,20 @@ class Status < ApplicationRecord
       Account.where(id: account_id).update_all('statuses_count = GREATEST(COALESCE(statuses_count, 0) - 1, 0)')
     end
 
+    if in_reply_to_id.present?
+      if association(:thread).loaded?
+        thread.decrement_count!(:replies_count)
+      else
+        StatusStat.where(status_id: in_reply_to_id).update_all('replies_count = GREATEST(COALESCE(replies_count, 0) - 1, 0)')
+      end
+    end
+
     return unless reblog?
 
     if association(:reblog).loaded?
-      reblog.update_attribute(:reblogs_count, [reblog.reblogs_count - 1, 0].max)
+      reblog.decrement_count!(:reblogs_count)
     else
-      Status.where(id: reblog_of_id).update_all('reblogs_count = GREATEST(COALESCE(reblogs_count, 0) - 1, 0)')
+      StatusStat.where(status_id: reblog_of_id).update_all('reblogs_count = GREATEST(COALESCE(reblogs_count, 0) - 1, 0)')
     end
   end
 end
