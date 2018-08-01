@@ -33,7 +33,7 @@ module Mastodon
     end
 
     def source_base_url
-      'https://bitbucket.org/savyasachi1/feedseer'
+      'https://github.com/sunilbandla/feedseer'
     end
 
     # specify git tag or commit hash here
