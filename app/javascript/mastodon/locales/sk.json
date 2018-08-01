@@ -175,6 +175,7 @@
   "navigation_bar.domain_blocks": "Skryté domény",
   "navigation_bar.edit_profile": "Upraviť profil",
   "navigation_bar.favourites": "Obľúbené",
+  "navigation_bar.filters": "Muted words",
   "navigation_bar.folders": "Folders",
   "navigation_bar.follow_requests": "Žiadosti o sledovanie",
   "navigation_bar.info": "O tomto Mastodon serveri",
