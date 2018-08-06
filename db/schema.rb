@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_15_023513) do
+ActiveRecord::Schema.define(version: 2018_08_06_012944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -714,8 +714,8 @@ ActiveRecord::Schema.define(version: 2018_07_15_023513) do
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id", name: "fk_f5fc4c1ee3", on_delete: :cascade
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id", name: "fk_e84df68546", on_delete: :cascade
   add_foreign_key "oauth_applications", "users", column: "owner_id", name: "fk_b0988c7c0a", on_delete: :cascade
+  add_foreign_key "qualifier_consumers", "accounts"
   add_foreign_key "qualifier_consumers", "qualifiers"
-  add_foreign_key "qualifier_consumers", "users", column: "account_id"
   add_foreign_key "qualifier_filters", "action_configs"
   add_foreign_key "qualifier_filters", "filter_conditions"
   add_foreign_key "qualifier_filters", "qualifier_consumers"
