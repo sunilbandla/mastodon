@@ -6,12 +6,13 @@ import LoadingIndicator from '../../components/loading_indicator';
 import Column from '../ui/components/column';
 import ColumnBackButtonSlim from '../../components/column_back_button_slim';
 import { fetchFolders } from '../../actions/folders';
-import { defineMessages, injectIntl } from 'react-intl';
+import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 import ColumnLink from '../ui/components/column_link';
 import ColumnSubheading from '../ui/components/column_subheading';
 import NewFolderForm from './components/new_folder_form';
 import { createSelector } from 'reselect';
+import ScrollableList from '../../components/scrollable_list';
 
 const messages = defineMessages({
   heading: { id: 'column.folders', defaultMessage: 'Folders' },
@@ -45,7 +46,7 @@ export default class Folders extends ImmutablePureComponent {
   }
 
   render () {
-    const { intl, folders } = this.props;
+    const { intl, shouldUpdateScroll, folders } = this.props;
 
     if (!folders) {
       return (
@@ -55,19 +56,24 @@ export default class Folders extends ImmutablePureComponent {
       );
     }
 
+    const emptyMessage = <FormattedMessage id='empty_column.folders' defaultMessage="You don't have any lists yet. When you create one, it will show up here." />;
+
     return (
-      <Column icon='bars' heading={intl.formatMessage(messages.heading)}>
+      <Column icon='list-ul' heading={intl.formatMessage(messages.heading)}>
         <ColumnBackButtonSlim />
 
         <NewFolderForm />
 
-        <div className='scrollable'>
-          <ColumnSubheading text={intl.formatMessage(messages.subheading)} />
-
+        <ColumnSubheading text={intl.formatMessage(messages.subheading)} />
+        <ScrollableList
+          scrollKey='folders'
+          shouldUpdateScroll={shouldUpdateScroll}
+          emptyMessage={emptyMessage}
+        >
           {folders.map(folder =>
-            <ColumnLink key={folder.get('id')} to={`/timelines/folder/${folder.get('id')}`} icon='bars' text={folder.get('name')} />
+            <ColumnLink key={folder.get('id')} to={`/timelines/folder/${folder.get('id')}`} icon='list-ul' text={folder.get('name')} />
           )}
-        </div>
+        </ScrollableList>
       </Column>
     );
   }

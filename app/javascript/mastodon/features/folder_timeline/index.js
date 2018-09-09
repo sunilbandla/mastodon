@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import StatusListContainer from '../ui/containers/status_list_container';
 import Column from '../../components/column';
+import ColumnBackButton from '../../components/column_back_button';
 import ColumnHeader from '../../components/column_header';
 import { addColumn, removeColumn, moveColumn } from '../../actions/columns';
 import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
@@ -35,6 +36,7 @@ export default class FolderTimeline extends React.PureComponent {
   static propTypes = {
     params: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
+    shouldUpdateScroll: PropTypes.func,
     columnId: PropTypes.string,
     hasUnread: PropTypes.bool,
     multiColumn: PropTypes.bool,
@@ -112,7 +114,7 @@ export default class FolderTimeline extends React.PureComponent {
   }
 
   render () {
-    const { hasUnread, columnId, multiColumn, folder } = this.props;
+    const { shouldUpdateScroll, hasUnread, columnId, multiColumn, folder } = this.props;
     const { id } = this.props.params;
     const pinned = !!columnId;
     const title  = folder ? folder.get('name') : id;
@@ -128,9 +130,8 @@ export default class FolderTimeline extends React.PureComponent {
     } else if (folder === false) {
       return (
         <Column>
-          <div className='scrollable'>
-            <MissingIndicator />
-          </div>
+          <ColumnBackButton />
+          <MissingIndicator />
         </Column>
       );
     }
@@ -138,7 +139,7 @@ export default class FolderTimeline extends React.PureComponent {
     return (
       <Column ref={this.setRef}>
         <ColumnHeader
-          icon='bars'
+          icon='list-ul'
           active={hasUnread}
           title={title}
           onPin={this.handlePin}
@@ -166,6 +167,7 @@ export default class FolderTimeline extends React.PureComponent {
           timelineId={`folder:${id}`}
           onLoadMore={this.handleLoadMore}
           emptyMessage={<FormattedMessage id='empty_column.folder' defaultMessage='There is nothing in this folder yet.' />}
+          shouldUpdateScroll={shouldUpdateScroll}
         />
       </Column>
     );
