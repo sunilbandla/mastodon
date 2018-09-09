@@ -114,14 +114,11 @@
   "empty_column.blocks": "You haven't blocked any users yet.",
   "empty_column.community": "本站时间轴暂时没有内容，快嘟几个来抢头香啊！",
   "empty_column.direct": "你还没有使用过私信。当你发出或者收到私信时，它会在这里显示。",
-<<<<<<< HEAD
-  "empty_column.folder": "There is nothing in this folder yet.",
-=======
   "empty_column.domain_blocks": "There are no hidden domains yet.",
   "empty_column.favourited_statuses": "You don't have any favourite toots yet. When you favourite one, it will show up here.",
   "empty_column.favourites": "No one has favourited this toot yet. When someone does, they will show up here.",
+  "empty_column.folder": "There is nothing in this folder yet.",
   "empty_column.follow_requests": "You don't have any follow requests yet. When you receive one, it will show up here.",
->>>>>>> v2.5.0
   "empty_column.hashtag": "这个话题标签下暂时没有内容。",
   "empty_column.home": "你还没有关注任何用户。快看看{public}，向其他用户搭讪吧。",
   "empty_column.home.public_timeline": "公共时间轴",

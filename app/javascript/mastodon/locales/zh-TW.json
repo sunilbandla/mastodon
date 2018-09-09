@@ -114,14 +114,11 @@
   "empty_column.blocks": "你還沒有封鎖任何使用者。",
   "empty_column.community": "本地時間軸是空的。公開寫點什麼吧！",
   "empty_column.direct": "你還沒有使用過私訊。當你發出或著收到私訊時，它會在這裡顯示。",
-<<<<<<< HEAD
-  "empty_column.folder": "There is nothing in this folder yet.",
-=======
   "empty_column.domain_blocks": "還沒有隱藏任何網域。",
   "empty_column.favourited_statuses": "你還沒有收藏任何嘟文。收藏後的嘟文會顯示在這裡。",
   "empty_column.favourites": "還沒有人收藏此嘟文。如果有人收藏，會顯示在這裡。",
+  "empty_column.folder": "There is nothing in this folder yet.",
   "empty_column.follow_requests": "還沒有人請求關注你。如果收到關注請求，會顯示在這裡。",
->>>>>>> v2.5.0
   "empty_column.hashtag": "這個主題標籤下什麼都沒有。",
   "empty_column.home": "你還沒關注任何人。造訪{public}或利用搜尋功能找到其他用者。",
   "empty_column.home.public_timeline": "公開時間軸",
@@ -204,12 +201,8 @@
   "navigation_bar.domain_blocks": "隱藏的站點",
   "navigation_bar.edit_profile": "編輯使用者資訊",
   "navigation_bar.favourites": "最愛",
-<<<<<<< HEAD
-  "navigation_bar.filters": "Muted words",
-  "navigation_bar.folders": "Folders",
-=======
   "navigation_bar.filters": "消音的詞",
->>>>>>> v2.5.0
+  "navigation_bar.folders": "Folders",
   "navigation_bar.follow_requests": "關注請求",
   "navigation_bar.info": "關於本站",
   "navigation_bar.keyboard_shortcuts": "快捷鍵",
