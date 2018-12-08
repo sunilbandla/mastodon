@@ -50,7 +50,7 @@ class ProcessMentionsService < BaseService
     FeedInsertWorker.perform_async(@status.id, mentioned_account.id, :folder)
 
     if mentioned_account.local?
-      LocalNotificationWorker.perform_async(mention.id)
+      LocalNotificationWorker.perform_async(mentioned_account.id, mention.id, mention.class.name)
     elsif mentioned_account.ostatus? && !@status.stream_entry.hidden?
       NotificationWorker.perform_async(ostatus_xml, @status.account_id, mentioned_account.id)
     elsif mentioned_account.activitypub?
